@@ -32,5 +32,5 @@ jobs:
         POWER_PLATFORM_URL: ${{ secrets.POWER_PLATFORM_URL }}
       run: |
         pac paportal download --environment ${{ secrets.POWER_PLATFORM_URL }} \
-                              --webSiteId ${{ secrets.WEBSITE_ID }} \
-                              --path ./downloaded_portal_files
+                              --webSiteId ${{ secrets.GOVUK_WEBSITE_ID }} \
+                              --path /
