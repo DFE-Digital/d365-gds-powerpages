@@ -1,4 +1,4 @@
-name: Power Platform Portal Actions
+name: Download GOVUK Portal
 
 on:
   workflow_dispatch:
