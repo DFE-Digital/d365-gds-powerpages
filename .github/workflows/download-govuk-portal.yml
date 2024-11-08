@@ -11,11 +11,9 @@ jobs:
     - name: Install Power Platform Tools
       uses: microsoft/powerplatform-actions/actions-install@v1
 
-    - name: Authenticate with Service Principal
-      shell: pwsh
-      env:
-        CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        TENANT_ID: ${{ secrets.TENANT_ID }}
-      run: |
-        pac auth create --url ${{ secrets.ENVIRONMENT_URL }} --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --tenant $TENANT_ID
+    - name: Authentication Check
+      uses: microsoft/powerplatform-actions/who-am-i@v1
+      with:
+        app-id: ${{ secrets.CLIENT_ID }}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{ secrets.TENANT_ID }}
