@@ -1,4 +1,5 @@
 name: Download GOVUK Portal
+
 on:
   workflow_dispatch:
 
@@ -13,23 +14,18 @@ jobs:
         Invoke-WebRequest -Uri https://aka.ms/PowerAppsCLI -OutFile PowerAppsCLI.msi
         Start-Process msiexec.exe -ArgumentList '/i PowerAppsCLI.msi /quiet /norestart' -NoNewWindow -Wait
 
-    - name: Verify Power Platform CLI Installation Directory
+    - name: Locate Power Platform CLI and Add to PATH
       shell: pwsh
       run: |
-        # Check the standard installation paths for Power Platform CLI
-        $defaultPath = "C:\Program Files (x86)\Microsoft Power Platform CLI\"
-        $altPath = "$env:LOCALAPPDATA\Microsoft Power Platform CLI\"
+        # Search for 'pac.exe' in common installation locations
+        $pacPath = Get-ChildItem -Path 'C:\' -Recurse -Filter 'pac.exe' -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty DirectoryName
         
-        # Add to PATH if found in either directory
-        if (Test-Path $defaultPath) {
-          echo "CLI found at default path"
-          $env:PATH += ";$defaultPath"
-        } elseif (Test-Path $altPath) {
-          echo "CLI found at alternate path"
-          $env:PATH += ";$altPath"
-        } else {
-          throw "Power Platform CLI not found in expected directories."
+        if ($null -eq $pacPath) {
+          throw "Power Platform CLI 'pac.exe' not found on this system."
         }
+        
+        echo "CLI found at: $pacPath"
+        $env:PATH += ";$pacPath"
 
     - name: Confirm CLI Installation and Add to PATH
       shell: pwsh
