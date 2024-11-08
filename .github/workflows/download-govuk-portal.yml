@@ -1,5 +1,4 @@
 name: Download GOVUK Portal
-
 on:
   workflow_dispatch:
 
@@ -13,14 +12,30 @@ jobs:
       run: |
         Invoke-WebRequest -Uri https://aka.ms/PowerAppsCLI -OutFile PowerAppsCLI.msi
         Start-Process msiexec.exe -ArgumentList '/i PowerAppsCLI.msi /quiet /norestart' -NoNewWindow -Wait
-        # Verify installation path and add to PATH
-        $env:PATH += ';C:\Program Files (x86)\Microsoft Power Platform CLI\'
 
-    - name: Verify Power Platform CLI Installation
+    - name: Verify Power Platform CLI Installation Directory
       shell: pwsh
       run: |
-        # Check if pac is installed correctly
-        Get-Command pac || throw "Power Platform CLI 'pac' not found. Installation may have failed."
+        # Check the standard installation paths for Power Platform CLI
+        $defaultPath = "C:\Program Files (x86)\Microsoft Power Platform CLI\"
+        $altPath = "$env:LOCALAPPDATA\Microsoft Power Platform CLI\"
+        
+        # Add to PATH if found in either directory
+        if (Test-Path $defaultPath) {
+          echo "CLI found at default path"
+          $env:PATH += ";$defaultPath"
+        } elseif (Test-Path $altPath) {
+          echo "CLI found at alternate path"
+          $env:PATH += ";$altPath"
+        } else {
+          throw "Power Platform CLI not found in expected directories."
+        }
+
+    - name: Confirm CLI Installation and Add to PATH
+      shell: pwsh
+      run: |
+        # Confirm that pac is available in the path
+        Get-Command pac || throw "Power Platform CLI 'pac' not found in PATH."
 
     - name: Authenticate with Service Principal
       shell: pwsh
@@ -30,4 +45,3 @@ jobs:
         TENANT_ID: ${{ secrets.TENANT_ID }}
       run: |
         pac auth create --url ${{ secrets.ENVIRONMENT_URL }} --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --tenant $TENANT_ID
-
