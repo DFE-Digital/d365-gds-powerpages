@@ -2,18 +2,27 @@ name: Download GOVUK Portal
 
 on:
   workflow_dispatch:
+    inputs:
+      start:
+        description: "Trigger workflow (no other inputs needed)"
+        default: "yes"
+        required: false
+        type: string
 
 jobs:
   portal-actions:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x'
+
     - name: Install Power Platform CLI
       run: |
-        wget https://aka.ms/PowerAppsCLI-linux -O pac-linux.tar.gz
-        mkdir -p ~/pac
-        tar -xzf pac-linux.tar.gz -C ~/pac
-        export PATH="$PATH:~/pac"
+        dotnet tool install -g microsoft.powerplatform.cli
+        export PATH="$PATH:~/.dotnet/tools"
 
     - name: Authenticate with Power Platform
       env:
@@ -26,7 +35,7 @@ jobs:
           "https://login.microsoftonline.com/$TENANT_ID/oauth2/v2.0/token" | jq -r .access_token)
         echo "TOKEN=$TOKEN" >> $GITHUB_ENV
 
-    - name: Download GOVUK Portal Files
+    - name: Download Portal Files
       env:
         TOKEN: ${{ env.TOKEN }}
         POWER_PLATFORM_URL: ${{ secrets.POWER_PLATFORM_URL }}
