@@ -27,6 +27,6 @@ jobs:
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
         download-path: /
-        website-id: ${{ secrets.GOVUK-WEBSITE-ID }}
+        website-id: ${{ secrets.GOVUK_WEBSITE_ID }}
         overwrite: true
         
