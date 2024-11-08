@@ -8,6 +8,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
     - name: Install Power Platform Tools
       uses: microsoft/powerplatform-actions/actions-install@v1
 
