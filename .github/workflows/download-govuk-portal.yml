@@ -18,3 +18,15 @@ jobs:
         app-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
+        
+    - name: Download GOVUK Portal
+      uses: microsoft/powerplatform-actions/download-paportal@v1
+      with:
+        environment-url: ${{ secrets.POWER_PLATFORM_URL }}
+        app-id: ${{ secrets.CLIENT_ID }}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        download-path: /
+        website-id: ${{ secrets.GOVUK-WEBSITE-ID }}
+        overwrite: true
+        
