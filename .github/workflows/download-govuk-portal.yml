@@ -26,7 +26,15 @@ jobs:
         app-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
-        download-path: ./${{ secrets.GOVUK_WEBSITE_NAME}}
+        download-path: ./
         website-id: ${{ secrets.GOVUK_WEBSITE_ID }}
         overwrite: true
+
+    - name: Commit and Push Changes
+      run: |
+        git add .
+        git commit -m "Download GOVUK Portal"
+        git push origin HEAD:${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
