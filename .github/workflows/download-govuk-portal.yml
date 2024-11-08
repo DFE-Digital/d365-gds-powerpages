@@ -8,6 +8,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Check Permissions
+      run: |
+        if [[ ",${{ secrets.AUTHORIZED_USERS }}," != *",${{ github.actor }},"* ]]; then
+          echo "Error: You do not have permission to run this workflow."
+          exit 1
+        fi
+    
     - name: Checkout Repository
       uses: actions/checkout@v2
       with:
