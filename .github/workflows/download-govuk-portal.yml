@@ -2,15 +2,9 @@ name: Download GOVUK Portal
 
 on:
   workflow_dispatch:
-    inputs:
-      start:
-        description: "Trigger workflow (no other inputs needed)"
-        default: "yes"
-        required: false
-        type: string
 
 jobs:
-  portal-actions:
+  build:
     runs-on: windows-latest
 
     steps:
@@ -19,6 +13,14 @@ jobs:
       run: |
         Invoke-WebRequest -Uri https://aka.ms/PowerAppsCLI -OutFile PowerAppsCLI.msi
         Start-Process msiexec.exe -ArgumentList '/i PowerAppsCLI.msi /quiet /norestart' -NoNewWindow -Wait
+        # Verify installation path and add to PATH
+        $env:PATH += ';C:\Program Files (x86)\Microsoft Power Platform CLI\'
+
+    - name: Verify Power Platform CLI Installation
+      shell: pwsh
+      run: |
+        # Check if pac is installed correctly
+        Get-Command pac || throw "Power Platform CLI 'pac' not found. Installation may have failed."
 
     - name: Authenticate with Service Principal
       shell: pwsh
@@ -29,11 +31,3 @@ jobs:
       run: |
         pac auth create --url ${{ secrets.ENVIRONMENT_URL }} --client-id $CLIENT_ID --client-secret $CLIENT_SECRET --tenant $TENANT_ID
 
-    - name: Download Portal Files
-      env:
-        TOKEN: ${{ env.TOKEN }}
-        POWER_PLATFORM_URL: ${{ secrets.POWER_PLATFORM_URL }}
-      run: |
-        pac paportal download --environment ${{ secrets.POWER_PLATFORM_URL }} \
-                              --webSiteId ${{ secrets.GOVUK_WEBSITE_ID }} \
-                              --path /
