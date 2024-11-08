@@ -1,0 +1,39 @@
+name: Power Platform Portal Actions
+
+on:
+  workflow_dispatch:
+    inputs:
+      client_id:
+        description: "Azure AD Client ID"
+        required: true
+      client_secret:
+        description: "Azure AD Client Secret"
+        required: true
+      tenant_id:
+        description: "Azure AD Tenant ID"
+        required: true
+      power_platform_url:
+        description: "Power Platform URL (e.g., https://yourenv.crm.dynamics.com)"
+        required: true
+
+jobs:
+  portal-actions:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Power Platform CLI
+      run: |
+        wget https://aka.ms/PowerAppsCLI-linux -O pac-linux.tar.gz
+        mkdir -p ~/pac
+        tar -xzf pac-linux.tar.gz -C ~/pac
+        export PATH="$PATH:~/pac"
+
+    - name: Authenticate with Power Platform
+      run: |
+        pac auth create --url ${{ github.event.inputs.power_platform_url }} \
+          --client-id ${{ github.event.inputs.client_id }} \
+          --client-secret ${{ github.event.inputs.client_secret }}
+
+    - name: Download Portal Files
+      run: |
+        pac paportal download --environment ${{ github.event.inputs.power_platform_url }} --webSiteId <website-id> --path <local-path>
