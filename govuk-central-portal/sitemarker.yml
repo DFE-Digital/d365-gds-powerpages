@@ -1,0 +1,18 @@
+- adx_name: DfE/Home
+  adx_pageid: e3dcb60f-636f-ef11-a670-7c1e5235396f
+  adx_sitemarkerid: 2c885f0b-636f-ef11-a670-002248a430ac
+- adx_name: DfE/Error/AccessDenied
+  adx_pageid: 7b4ea60c-636f-ef11-a670-002248a3bd1d
+  adx_sitemarkerid: 2d885f0b-636f-ef11-a670-002248a430ac
+- adx_name: Public Profile
+  adx_pageid: e5dcb60f-636f-ef11-a670-7c1e5235396f
+  adx_sitemarkerid: 348a060e-636f-ef11-a670-7c1e522065e3
+- adx_name: Profile
+  adx_pageid: 06e08511-636f-ef11-a670-002248a430ac
+  adx_sitemarkerid: 358a060e-636f-ef11-a670-7c1e522065e3
+- adx_name: DfE/Error/PageNotFound
+  adx_pageid: 4a8a060e-636f-ef11-a670-7c1e522065e3
+  adx_sitemarkerid: 524ea60c-636f-ef11-a670-002248a3bd1d
+- adx_name: DfE/Error/RecordNotFound
+  adx_pageid: 94705161-2b70-ef11-a670-7c1e522065e3
+  adx_sitemarkerid: 86d2c2a6-2b70-ef11-a670-7c1e522065e3
