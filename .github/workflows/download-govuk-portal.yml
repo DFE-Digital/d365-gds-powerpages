@@ -2,12 +2,6 @@ name: Download GOVUK Portal
 
 on:
   workflow_dispatch:
-    inputs:
-      start:
-        description: "Trigger workflow (no other inputs needed)"
-        default: "yes"
-        required: false
-        type: string
 
 jobs:
   build:
@@ -15,11 +9,14 @@ jobs:
 
     steps:
     - name: Check Permissions
+      shell: pwsh
       run: |
-        if [[ ",${{ secrets.AUTHORIZED_USERS }}," != *",${{ github.actor }},"* ]]; then
-          echo "Error: You do not have permission to run this workflow."
+        $authorizedUsers = "${{ secrets.AUTHORIZED_USERS }}"
+        $currentUser = "${{ github.actor }}"
+        if ($authorizedUsers -notcontains $currentUser) {
+          Write-Output "Error: You do not have permission to run this workflow."
           exit 1
-        fi
+        }
     
     - name: Checkout Repository
       uses: actions/checkout@v2
