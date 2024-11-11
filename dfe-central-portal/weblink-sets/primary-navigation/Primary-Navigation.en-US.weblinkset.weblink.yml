@@ -1,0 +1,45 @@
+- adx_disablepagevalidation: false
+  adx_displayimageonly: false
+  adx_displayorder: 3
+  adx_displaypagechildlinks: false
+  adx_name: Testing Page
+  adx_openinnewwindow: false
+  adx_pageid: 7a83da9b-9b97-ef11-8a6a-7c1e521fa723
+  adx_publishingstateid: 378421ce-626f-ef11-a670-7c1e522065e3
+  adx_robotsfollowlink: true
+  adx_weblinkid: 1c0241af-9b97-ef11-8a6a-7c1e521fa723
+  adx_weblinksetid: 0a7532d4-626f-ef11-a670-7c1e522065e3
+- adx_disablepagevalidation: false
+  adx_displayimageonly: false
+  adx_displayorder: 2
+  adx_displaypagechildlinks: false
+  adx_name: Landing Page Test
+  adx_openinnewwindow: false
+  adx_pageid: 9f8f5d9f-d187-ef11-ac20-002248a46a38
+  adx_publishingstateid: 378421ce-626f-ef11-a670-7c1e522065e3
+  adx_robotsfollowlink: true
+  adx_weblinkid: 213cc3cf-d392-ef11-8a6a-002248a46a38
+  adx_weblinksetid: 0a7532d4-626f-ef11-a670-7c1e522065e3
+- adx_disablepagevalidation: false
+  adx_displayimageonly: false
+  adx_displayorder: 4
+  adx_displaypagechildlinks: false
+  adx_name: Enquiry Landing Page
+  adx_openinnewwindow: false
+  adx_pageid: e2d5ab39-24a0-ef11-8a6a-002248a1e71d
+  adx_publishingstateid: 378421ce-626f-ef11-a670-7c1e522065e3
+  adx_robotsfollowlink: true
+  adx_weblinkid: 5e2fcca4-24a0-ef11-8a6a-002248a1e71d
+  adx_weblinksetid: 0a7532d4-626f-ef11-a670-7c1e522065e3
+- adx_disablepagevalidation: false
+  adx_displayimageonly: true
+  adx_displayorder: 1
+  adx_displaypagechildlinks: false
+  adx_imageurl: .fa.fa-home
+  adx_name: Home
+  adx_openinnewwindow: false
+  adx_pageid: 0c7532d4-626f-ef11-a670-7c1e522065e3
+  adx_publishingstateid: 378421ce-626f-ef11-a670-7c1e522065e3
+  adx_robotsfollowlink: true
+  adx_weblinkid: f3e9eed4-626f-ef11-a670-002248a3bd1d
+  adx_weblinksetid: 0a7532d4-626f-ef11-a670-7c1e522065e3

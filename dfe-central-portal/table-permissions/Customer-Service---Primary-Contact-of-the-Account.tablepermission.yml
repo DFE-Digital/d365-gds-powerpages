@@ -1,0 +1,13 @@
+adx_append: true
+adx_appendto: false
+adx_contactrelationship: account_primary_contact
+adx_create: false
+adx_delete: false
+adx_entitylogicalname: account
+adx_entityname: Customer Service - Primary Contact of the Account
+adx_entitypermission_webrole:
+- 227532d4-626f-ef11-a670-7c1e522065e3
+adx_entitypermissionid: 772ba0c8-626f-ef11-a670-002248a3bd1d
+adx_read: true
+adx_scope: 756150001
+adx_write: false
