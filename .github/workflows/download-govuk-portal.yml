@@ -1,7 +1,13 @@
-name: Download GOVUK Portal
+name: Power Platform Portal Actions
 
 on:
   workflow_dispatch:
+    inputs:
+      start:
+        description: "Trigger workflow (no other inputs needed)"
+        default: "yes"
+        required: false
+        type: string
 
 jobs:
   build:
