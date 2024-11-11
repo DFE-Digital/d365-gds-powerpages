@@ -2,12 +2,6 @@ name: Download GOVUK Portal
 
 on:
   workflow_dispatch:
-    inputs:
-      start:
-        description: "Trigger workflow (no other inputs needed)"
-        default: "yes"
-        required: false
-        type: string
 
 jobs:
   build:
