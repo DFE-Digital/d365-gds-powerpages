@@ -1,13 +1,7 @@
-name: Power Platform Portal Actions
+name: Download DfE Portal
 
 on:
   workflow_dispatch:
-    inputs:
-      start:
-        description: "Trigger workflow (no other inputs needed)"
-        default: "yes"
-        required: false
-        type: string
 
 jobs:
   build:
@@ -45,7 +39,7 @@ jobs:
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
         download-path: .
-        website-id: ${{ secrets.GOVUK_WEBSITE_ID }}
+        website-id: ${{ secrets.DFE_WEBSITE_ID }}
         overwrite: true
 
     - name: Configure Git
