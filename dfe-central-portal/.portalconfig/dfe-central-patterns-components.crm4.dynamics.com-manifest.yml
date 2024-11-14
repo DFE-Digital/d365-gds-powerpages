@@ -1450,7 +1450,7 @@ adx_websitelanguage:
 adx_webtemplate:
 - RecordId: 019d5d40-26a0-ef11-8a6a-002248a1e71d
   DisplayName: Central/Enquiry/LandingPage
-  CheckSum: e1ffddab8c0ea57e01f4c432bf239e6530e4258c500f21b5761a44fb88a053d4
+  CheckSum: a8c87002c5446ec34c8aa75506acbcac7b1e12fc0fbc80010f8a5464556c69b7
   IsDeleted: false
 - RecordId: 02072250-1b70-ef11-a671-0022489df671
   DisplayName: DfE/Error/AccessDenied
