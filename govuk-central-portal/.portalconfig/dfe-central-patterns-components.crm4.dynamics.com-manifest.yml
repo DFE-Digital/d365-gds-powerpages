@@ -531,49 +531,49 @@ adx_entityform:
 - RecordId: 7dbc2407-636f-ef11-a671-0022489df671
   DisplayName: simple contact us form
   CheckSum: 390b3869f86c84da8841f6f369c3d8767625411524f617ffeaaba31a82e552e7
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 7ebc2407-636f-ef11-a671-0022489df671
   DisplayName: Contact Us
   CheckSum: 0e3f99ca5d40f34b65821c23c96bb41b0f2c95c78904a210624303908855865e
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 7fbc2407-636f-ef11-a671-0022489df671
   DisplayName: Customer Service - Edit Case
   CheckSum: 2e5be72e3c4cba60dd17bf51ed10235a4a94b31d44732b2c0bad90657ba222dd
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: a4ed8e06-636f-ef11-a670-002248a3bd1d
   DisplayName: Customer Service - Create Case
   CheckSum: 306617b629df26e7f5538a1f4d51f3dc0b0beb0419815be39beeb32a344900c4
-  IsDeleted: false
+  IsDeleted: true
 adx_entityformmetadata:
 - RecordId: 4b52d025-639f-41e0-8a93-516ea4fa11c0
   DisplayName: 4b52d025-639f-41e0-8a93-516ea4fa11c0
   CheckSum: 96f70b3ad70ab28d80b13b6b2f6b7bd9776b87587c1ba29496f47c1a6046ffa7
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: b5dccc31-99de-46c1-8f9a-e5f153daec65
   DisplayName: b5dccc31-99de-46c1-8f9a-e5f153daec65
   CheckSum: 60f8cec61c5f12da0044877ec1c961190ca1806f11e4239db1f5f79c0360b6af
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: c9a24192-1922-4ec1-9207-948bca5e73d6
   DisplayName: c9a24192-1922-4ec1-9207-948bca5e73d6
   CheckSum: bd6f56b7675c6107e05aec24b3d487abeddd8e46c7932a9b9fc870c4ab8a4e0d
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: da2ce316-8545-4363-82ab-e342aa22c6fd
   DisplayName: da2ce316-8545-4363-82ab-e342aa22c6fd
   CheckSum: 8164e375044d7490c212e2c8b51303fa5b5fd94f97b4d4219099959319486a54
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: ea0a09af-1c66-4d88-8205-29848ebe6994
   DisplayName: ea0a09af-1c66-4d88-8205-29848ebe6994
   CheckSum: 78b96e9321e3932224508dba2d6090f4b037661eb3ec92f47568794609766916
-  IsDeleted: false
+  IsDeleted: true
 adx_entitylist:
 - RecordId: 81bc2407-636f-ef11-a671-0022489df671
   DisplayName: Customer Service - My Portal - Cases List
   CheckSum: 217bfa8fa7dc4aec7e4191344a4cd6541bae47a7b4e84f7dee1416413af43127
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: e7df1307-636f-ef11-a670-7c1e522065e3
   DisplayName: Customer Service - Cases List
   CheckSum: b43c58013bd31b803ed97b3cd7656953fc9e0ee211a38c5b3fcfa012d3e5b796
-  IsDeleted: false
+  IsDeleted: true
 adx_entitypermission:
 - RecordId: 83bc2407-636f-ef11-a671-0022489df671
   DisplayName: Customer Service - Portal Comment where account of the contact is customer
@@ -741,10 +741,10 @@ adx_pagetemplate:
 - RecordId: 35ee8e06-636f-ef11-a670-002248a3bd1d
   DisplayName: Table of Contents
   CheckSum: 94c5437bd7d23dcd349bf2f0cbe6fa3ab57c5c0c369c1c80e1cac684d1cd3834
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 36ee8e06-636f-ef11-a670-002248a3bd1d
-  DisplayName: Home
-  CheckSum: 7c61f1d32c62a77e269abb432e3e147a4d653cec42563c0d462fd1230d38b7be
+  DisplayName: DfE/Home
+  CheckSum: d62e76307156d5e3ae94192a241f95883f0ff7599ea1035f5fc086ab3188e04c
   IsDeleted: false
 - RecordId: 509b896d-2b70-ef11-a670-7c1e522065e3
   DisplayName: DfE/Error/RecordNotFound
@@ -765,7 +765,7 @@ adx_pagetemplate:
 - RecordId: f2e9a007-636f-ef11-a670-000d3adb261f
   DisplayName: Web Form
   CheckSum: a66236b246b7888312e6b942652289bb9e0c6cb528b61eccb35249f812274c75
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: fadf1307-636f-ef11-a670-7c1e522065e3
   DisplayName: Profile
   CheckSum: bd116c5a1b7a98fabc443d0bdabd46c660a32aa6742b413fea2af36ca6cc311e
@@ -773,39 +773,39 @@ adx_pagetemplate:
 - RecordId: ffdf1307-636f-ef11-a670-7c1e522065e3
   DisplayName: Search
   CheckSum: 6cc816dcbcf6b3fe265b6379f4c04f07b85a0cb1bb76fa6084ca6073d347b6dd
-  IsDeleted: false
+  IsDeleted: true
 adx_poll:
 - RecordId: 38ee8e06-636f-ef11-a670-002248a3bd1d
   DisplayName: Yes or No Question
   CheckSum: b6ac6c938b963d35f3d2078aa6ad9ece18bc47492a10c67b2379b91a98ec65eb
-  IsDeleted: false
+  IsDeleted: true
 adx_polloption:
 - RecordId: 454ea60c-636f-ef11-a670-002248a3bd1d
   DisplayName: Yes
   CheckSum: fe518f53599c26af87f7c0bb060bb6bd4223e708592f23c43087f264ddf8a790
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 464ea60c-636f-ef11-a670-002248a3bd1d
   DisplayName: No
   CheckSum: 423e9e0d4e2e76b02e461b47d68f20a131eb05b9d918d9520f44ac28ff853a81
-  IsDeleted: false
+  IsDeleted: true
 adx_pollplacement:
 - RecordId: 24885f0b-636f-ef11-a670-002248a430ac
   DisplayName: Sidebar
   CheckSum: 88ee958ebc0d691ed418eda3963ce5547dc6237b201d0af8d1479587fe135393
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 484ea60c-636f-ef11-a670-002248a3bd1d
   DisplayName: Home
   CheckSum: 23cea2c6b45b60f5c960ef84ae5365e599e59ba377fbe0af016040c305a231a3
-  IsDeleted: false
+  IsDeleted: true
 adx_pollplacement_poll:
 - RecordId: 38ee8e06-636f-ef11-a670-002248a3bd1d
   DisplayName: $RELATIONSHIP$adx_pollplacement:24885f0b-636f-ef11-a670-002248a430ac:adx_poll
   CheckSum: 602fedba0beaa5f28af96142a8d52f7cf22484cd2a191f43ce8bcc7582e62cd1
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 38ee8e06-636f-ef11-a670-002248a3bd1d
   DisplayName: $RELATIONSHIP$adx_pollplacement:484ea60c-636f-ef11-a670-002248a3bd1d:adx_poll
   CheckSum: 56450c0ee6b5ca402dcec0537df85363832abe873112e121af7d6f7feb3bd646
-  IsDeleted: false
+  IsDeleted: true
 adx_portallanguage:
 - RecordId: f6fca6d7-626f-ef11-a670-002248a430ac
   DisplayName: English
@@ -1343,7 +1343,7 @@ adx_webtemplate:
 - RecordId: 2f80e50d-636f-ef11-a670-000d3adb261f
   DisplayName: Sitemap
   CheckSum: 5840cfbc91780d2bcba1577974c32c9e3406a142e4ef0c7b8075f983ffec5a92
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 3280e50d-636f-ef11-a670-000d3adb261f
   DisplayName: DfE/Layouts/Header
   CheckSum: e713e894adb5726cc84f2464a4c133a54d55191a81e6ac0021525629eed08058
@@ -1355,7 +1355,7 @@ adx_webtemplate:
 - RecordId: 3980e50d-636f-ef11-a670-000d3adb261f
   DisplayName: Sitemap Item
   CheckSum: 8d075ca894859ceb29c3a552b5aa3abb2e49a1d277182921c2f452f43c047541
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 4d8a060e-636f-ef11-a670-7c1e522065e3
   DisplayName: Page Copy
   CheckSum: 38d8b4165fccdf7d2fadfca680d9c65dbe32a7c8e5a5bda25ecab61188210496
@@ -1367,7 +1367,7 @@ adx_webtemplate:
 - RecordId: 64eab812-636f-ef11-a670-002248a3bd1d
   DisplayName: Languages Dropdown
   CheckSum: 1682c1465c3eeeed07e44e9860bef2c72f14e2d314c8d519201241fe35724866
-  IsDeleted: false
+  IsDeleted: true
 - RecordId: 717a7c83-2670-ef11-a670-002248a3bd1d
   DisplayName: DfE/Error/AccessDenied
   CheckSum: bf57646755526cde238e9063d71e8714a7800ed0b6428e1303e752a07ca800ac
