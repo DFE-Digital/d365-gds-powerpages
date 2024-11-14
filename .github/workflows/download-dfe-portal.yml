@@ -45,6 +45,10 @@ jobs:
         website-id: ${{ secrets.DFE_WEBSITE_ID }}
         overwrite: true
 
+    - name: Remove central-* Files
+      run: |
+        find . -type f -name "central-*" -exec rm -f {} +
+
     - name: Configure Git
       run: |
         git config user.name "GitHub Actions"
