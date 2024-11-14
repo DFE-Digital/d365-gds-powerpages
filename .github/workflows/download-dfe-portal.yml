@@ -69,16 +69,18 @@ jobs:
         # Path to YAML file
         $yamlPath = "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
 
-        # Load YAML content as an array of records
+        # Load YAML content
         $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
 
-        # Filter out entire records where DisplayName starts with 'Central/'
-        $filteredContent = $yamlContent | Where-Object {
-          $_.DisplayName -notlike 'Central/*'
+        # Process each top-level section and filter records within
+        foreach ($section in $yamlContent.Keys) {
+            $yamlContent[$section] = $yamlContent[$section] | Where-Object {
+                $_.DisplayName -notlike 'Central/*'
+            }
         }
 
-        # Convert back to YAML and overwrite the file
-        $filteredContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
+        # Save the updated content back to the YAML file
+        $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
 
     - name: Configure Git
       run: |
