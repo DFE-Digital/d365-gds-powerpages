@@ -1,16 +1,14 @@
 {% extends 'DfE/Layouts/2ColumnWideLeft' %}
-{% block breadcrumbs %}
-{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 
 {% block title %}
   <h1 class='govuk-heading-xl'>{{ settings['DfE/ServiceName'] }}</h1>
 {% endblock %}
 
 {% block main %}
-
   {% if user %}
     <!-- Signed in user content goes here -->
-    
   {% else %}
     <!-- Signed out user content goes here -->
   {% endif %}
@@ -18,5 +16,4 @@
 
 {% block rightColumn %}
   <!-- Side banner content goes in here. If side banner content is not required this block can be removed from the template -->
-  
 {% endblock %}
