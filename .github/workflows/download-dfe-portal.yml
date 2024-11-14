@@ -45,10 +45,16 @@ jobs:
         website-id: ${{ secrets.DFE_WEBSITE_ID }}
         overwrite: true
 
-    - name: Remove central-* Files
+    - name: Remove central-* Files and Folders
       shell: pwsh
       run: |
-        Get-ChildItem -Path . -Filter "central-*" -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
+        Get-ChildItem -Path . -Filter "central-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
 
     - name: Configure Git
       run: |
