@@ -56,6 +56,30 @@ jobs:
           }
         }
 
+    - name: Install PowerShell YAML Module
+      shell: pwsh
+      run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
+
+    - name: Remove Central/* Records from Manifest
+      shell: pwsh
+      run: |
+        # Load YAML module
+        Import-Module powershell-yaml
+
+        # Path to YAML file
+        $yamlPath = "./dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
+
+        # Load YAML content as an array of records
+        $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
+
+        # Filter out entire records where DisplayName starts with 'Central/'
+        $filteredContent = $yamlContent | Where-Object {
+          $_.DisplayName -notlike 'Central/*'
+        }
+
+        # Convert back to YAML and overwrite the file
+        $filteredContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
+
     - name: Configure Git
       run: |
         git config user.name "GitHub Actions"
