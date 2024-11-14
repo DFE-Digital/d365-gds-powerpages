@@ -46,8 +46,9 @@ jobs:
         overwrite: true
 
     - name: Remove central-* Files
+      shell: pwsh
       run: |
-        find . -type f -name "central-*" -exec rm -f {} +
+        Get-ChildItem -Path . -Filter "central-*" -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
 
     - name: Configure Git
       run: |
