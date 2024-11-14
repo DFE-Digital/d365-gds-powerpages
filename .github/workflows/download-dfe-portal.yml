@@ -72,8 +72,11 @@ jobs:
         # Load YAML content
         $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
 
-        # Process each top-level section and filter records within
-        foreach ($section in $yamlContent.Keys) {
+        # Create a list of section names to iterate over safely
+        $sections = $yamlContent.Keys | ForEach-Object { $_ }
+
+        # Process each section and filter records within
+        foreach ($section in $sections) {
             $yamlContent[$section] = $yamlContent[$section] | Where-Object {
                 $_.DisplayName -notlike 'Central/*'
             }
