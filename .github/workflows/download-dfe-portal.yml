@@ -67,7 +67,7 @@ jobs:
         Import-Module powershell-yaml
 
         # Path to YAML file
-        $yamlPath = "./dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
+        $yamlPath = "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
 
         # Load YAML content as an array of records
         $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
