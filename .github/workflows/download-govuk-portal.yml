@@ -45,6 +45,47 @@ jobs:
         website-id: ${{ secrets.GOVUK_WEBSITE_ID }}
         overwrite: true
 
+    - name: Remove central-* Files and Folders
+      shell: pwsh
+      run: |
+        Get-ChildItem -Path . -Filter "central-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Install PowerShell YAML Module
+      shell: pwsh
+      run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
+
+    - name: Remove Central/* Records from Manifest
+      shell: pwsh
+      run: |
+        # Load YAML module
+        Import-Module powershell-yaml
+
+        # Path to YAML file
+        $yamlPath = "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
+
+        # Load YAML content
+        $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
+
+        # Create a list of section names to iterate over safely
+        $sections = $yamlContent.Keys | ForEach-Object { $_ }
+
+        # Process each section and filter records within
+        foreach ($section in $sections) {
+            $yamlContent[$section] = $yamlContent[$section] | Where-Object {
+                $_.DisplayName -notlike 'Central/*'
+            }
+        }
+
+        # Save the updated content back to the YAML file
+        $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
+
+
     - name: Configure Git
       run: |
         git config user.name "GitHub Actions"
