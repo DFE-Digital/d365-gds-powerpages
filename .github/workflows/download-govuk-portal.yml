@@ -48,7 +48,7 @@ jobs:
     - name: Remove central-* Files and Folders
       shell: pwsh
       run: |
-        Get-ChildItem -Path . -Filter "central-*" -Recurse | ForEach-Object {
+        Get-ChildItem -Path "./govuk-central-portal/" -Filter "central-*" -Recurse | ForEach-Object {
           if ($_.PSIsContainer) {
             Remove-Item -Recurse -Force $_.FullName
           } else {
