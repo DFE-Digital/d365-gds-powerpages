@@ -34,7 +34,7 @@ jobs:
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
         
-    - name: Download GOVUK Portal
+    - name: Download DfE Portal
       uses: microsoft/powerplatform-actions/download-paportal@v1
       with:
         environment-url: ${{ secrets.POWER_PLATFORM_URL }}
@@ -48,7 +48,7 @@ jobs:
     - name: Remove central-* Files and Folders
       shell: pwsh
       run: |
-        Get-ChildItem -Path . -Filter "central-*" -Recurse | ForEach-Object {
+        Get-ChildItem -Path "./dfe-central-portal/" -Filter "central-*" -Recurse | ForEach-Object {
           if ($_.PSIsContainer) {
             Remove-Item -Recurse -Force $_.FullName
           } else {
