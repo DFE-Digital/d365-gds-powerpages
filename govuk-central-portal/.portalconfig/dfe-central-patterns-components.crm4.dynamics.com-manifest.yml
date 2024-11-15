@@ -641,7 +641,7 @@ adx_entitypermission:
   IsDeleted: false
 - RecordId: e4ed8e06-636f-ef11-a670-002248a3bd1d
   DisplayName: Customer Service - Contact of the Contact
-  CheckSum: f82fb97c70249961981499786c31d77cd33bfff42429ec9022637b881f059a24
+  CheckSum: 3d553090765581293fed846b06743fd717b646e50df4f41ef8d91daec23b6850
   IsDeleted: false
 - RecordId: e5ed8e06-636f-ef11-a670-002248a3bd1d
   DisplayName: Customer Service - Case Notes where account of the contact is customer
@@ -657,7 +657,7 @@ adx_entitypermission:
   IsDeleted: false
 - RecordId: e8ed8e06-636f-ef11-a670-002248a3bd1d
   DisplayName: Customer Service - Contact of the User
-  CheckSum: 97113b8a0d9f28f8f5798b39d867f0a80f3785075f449aa528807171e29dcf74
+  CheckSum: f0b6b703cb5352e5c221d1f86527ed040cd2121572f199f4c6228a56c299fe1b
   IsDeleted: false
 - RecordId: e9df1307-636f-ef11-a670-7c1e522065e3
   DisplayName: Portal Comment - Attachments where contact is customer
