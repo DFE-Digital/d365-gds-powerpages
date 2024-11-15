@@ -72,15 +72,28 @@ jobs:
         # Load YAML content
         $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
 
+        # Debug: Output the structure of the loaded YAML
+        Write-Output "Original YAML structure:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
+
         # Create a list of section names to iterate over safely
         $sections = $yamlContent.Keys | ForEach-Object { $_ }
 
         # Process each section and filter records within
         foreach ($section in $sections) {
-            $yamlContent[$section] = $yamlContent[$section] | Where-Object {
-                $_.DisplayName -notlike 'Central/*'
+            # Ensure the section is a list before modifying
+            if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
+                $yamlContent[$section] = $yamlContent[$section] | Where-Object {
+                    $_.DisplayName -notlike 'Central/*'
+                }
+            } else {
+                Write-Output "Skipping section '$section' because it is not a list."
             }
         }
+
+        # Debug: Output the modified YAML structure
+        Write-Output "Modified YAML structure:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
 
         # Save the updated content back to the YAML file
         $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
