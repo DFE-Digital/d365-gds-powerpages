@@ -1,7 +1,7 @@
 name: Cleanup DfE Portal Files
 
 on:
-  push:
+  pull-request:
     branches:
       - main
 
