@@ -1,0 +1,30 @@
+<script>
+  var loginCacheKey = "lastLoginKey";
+ var userObject = "{{user.id}}";
+ debugger;
+   if(userObject)
+   {  
+    debugger;
+    if (!sessionStorage.getItem(loginCacheKey)) {
+      addEventListener("DOMContentLoaded", (event) => {        
+        const now = new Date();
+        sessionStorage.setItem(loginCacheKey, now);
+        const dataObject={
+          "adx_identity_lastsuccessfullogin": now
+        };
+        DfEPortal.WebApi.Update("{{user.id}}", "contacts", dataObject)
+        .then(() => {
+         
+        })
+        .catch((error) => {
+          console.log(error);
+          sessionStorage.removeItem(loginCacheKey);
+          })
+      });      
+    }
+   }
+   else
+   {    
+    sessionStorage.removeItem(loginCacheKey);
+   }  
+</script>
