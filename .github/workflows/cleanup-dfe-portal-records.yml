@@ -81,4 +81,4 @@ jobs:
         git commit -m "Cleanup DfE portal files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
 
         # Push changes back to the cleanup branch
-        git push origin HEAD:refs/heads/main
+        git push origin HEAD:refs/heads/main --force
