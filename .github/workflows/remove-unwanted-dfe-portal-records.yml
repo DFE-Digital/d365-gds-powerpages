@@ -1,7 +1,8 @@
-name: Download GOVUK Portal
+name: Remove Unwanted DfE Portal Files
 
 on:
-  workflow_dispatch:
+  repository_dispatch:
+    types: [trigger-child-dfe-portal]
 
 jobs:
   build:
@@ -22,33 +23,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-      
-    - name: Install Power Platform Tools
-      uses: microsoft/powerplatform-actions/actions-install@v1
-
-    - name: Authentication Check
-      uses: microsoft/powerplatform-actions/who-am-i@v1
-      with:
-        environment-url: ${{ secrets.POWER_PLATFORM_URL }}
-        app-id: ${{ secrets.CLIENT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        
-    - name: Download GOVUK Portal
-      uses: microsoft/powerplatform-actions/download-paportal@v1
-      with:
-        environment-url: ${{ secrets.POWER_PLATFORM_URL }}
-        app-id: ${{ secrets.CLIENT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        download-path: .
-        website-id: ${{ secrets.GOVUK_WEBSITE_ID }}
-        overwrite: true
 
     - name: Remove central-* Files and Folders
       shell: pwsh
       run: |
-        Get-ChildItem -Path "./govuk-central-portal/" -Filter "central-*" -Recurse | ForEach-Object {
+        Get-ChildItem -Path "./dfe-central-portal/" -Filter "central-*" -Recurse | ForEach-Object {
           if ($_.PSIsContainer) {
             Remove-Item -Recurse -Force $_.FullName
           } else {
@@ -67,22 +46,30 @@ jobs:
         Import-Module powershell-yaml
 
         # Path to YAML file
-        $yamlPath = "./govuk-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
+        $yamlPath = "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
 
         # Load YAML content
         $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
 
-        # Create a list of section names to iterate over safely
-        $sections = $yamlContent.Keys | ForEach-Object { $_ }
+        # Debug: Output the original structure of the YAML
+        Write-Output "Original YAML Content:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
 
-        # Process each section and filter records within
-        foreach ($section in $sections) {
-            $yamlContent[$section] = $yamlContent[$section] | Where-Object {
-                $_.DisplayName -notlike 'Central/*'
+        # Iterate over top-level sections and filter records with DisplayName starting with 'Central/'
+        foreach ($section in $yamlContent.Keys) {
+            # Only process sections that are lists
+            if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
+                $yamlContent[$section] = $yamlContent[$section] | Where-Object {
+                    $_.DisplayName -notlike 'Central/*'
+                }
             }
         }
 
-        # Save the updated content back to the YAML file
+        # Debug: Output the modified structure of the YAML
+        Write-Output "Modified YAML Content:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
+
+        # Save the updated YAML back to the file
         $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
 
 
@@ -97,7 +84,7 @@ jobs:
       run: |
         # Stage and commit all changes
         git add .
-        git commit -m "Added GOVUK portal download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        git commit -m "Added DfE portal download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD

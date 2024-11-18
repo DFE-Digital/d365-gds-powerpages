@@ -34,7 +34,7 @@ jobs:
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
         
-    - name: Download GOVUK Portal
+    - name: Download DfE Portal
       uses: microsoft/powerplatform-actions/download-paportal@v1
       with:
         environment-url: ${{ secrets.POWER_PLATFORM_URL }}
@@ -56,8 +56,14 @@ jobs:
       run: |
         # Stage and commit all changes
         git add .
-        git commit -m "Added GOVUK portal download for build ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        git commit -m "Added DfE portal download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD
+
+    - name: Trigger Child Workflow
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        event-type: trigger-child-dfe-portal
         

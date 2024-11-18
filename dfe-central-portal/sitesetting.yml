@@ -1,8 +1,6 @@
-- adx_name: DfE/Central/AppInsight/InstrumentationKey
+- adx_name: Central/AppInsight/InstrumentationKey
   adx_sitesettingid: 00de3494-e27f-ef11-ac21-000d3adb571a
   adx_value: 41197e75-163e-44b3-9223-26255bb30d36
-- adx_name: Providing/AppInsight/instrumentationKey
-  adx_sitesettingid: 15c0f2da-5470-ef11-a671-0022489df671
 - adx_name: ThemeFeature
   adx_sitesettingid: 15d48d5d-3b0f-4b92-a200-80dc16419ec0
   adx_value: '{"status":"disable","selectedThemeId":"","siteSettingId":"15d48d5d-3b0f-4b92-a200-80dc16419ec0","version":"V2"}'
@@ -110,9 +108,6 @@
   adx_name: Header/OutputCache/Enabled
   adx_sitesettingid: 4f8421ce-626f-ef11-a670-7c1e522065e3
   adx_value: True
-- adx_name: BROWN/AppInsight/InstrumentationKey
-  adx_sitesettingid: 6a9e5ee7-8d81-ef11-ac20-002248a46a38
-  adx_value: 4c04ce47-7736-424f-a216-6306f9269adc
 - adx_name: Webapi/contact/enabled
   adx_sitesettingid: 6b8d3717-7f6f-ef11-a671-0022489df671
   adx_value: true
@@ -167,16 +162,9 @@
 - adx_name: Search/EnableGenerativeAI
   adx_sitesettingid: 80bc2407-636f-ef11-a671-0022489df671
   adx_value: True
-- adx_name: Quick/AppInsight/InstrumentationKey
-  adx_sitesettingid: a1cc9b9a-587f-ef11-ac20-002248a46a38
-  adx_value: 966beb4b-76f1-4b2e-9994-f2cc346f125e
-  importsequencenumber: 4
 - adx_name: DfE/ServiceName
   adx_sitesettingid: bfde9a6f-1e70-ef11-a670-002248a430ac
   adx_value: '[Service name]'
-- adx_name: Demo/AppInsight/instrumentationKey
-  adx_sitesettingid: c0e578b9-e27c-ef11-ac20-002248a46a38
-  adx_value: a4b21681-43d0-4d08-a247-0a5550af27a3
 - adx_description: A true or false value. If set to true, the local account will be marked as deprecated. The portal user will be required to migrate to a non-deprecated account.
   adx_name: Authentication/Registration/LocalLoginDeprecated
   adx_sitesettingid: ebb1a0ce-626f-ef11-a670-002248a3bd1d
@@ -200,9 +188,6 @@
   adx_name: Authentication/LoginThrottling/IpAddressTimeoutTimeSpan
   adx_sitesettingid: f1b1a0ce-626f-ef11-a670-002248a3bd1d
   adx_value: 00:10:00
-- adx_name: FTEST/AppInsight/InstrumentationKey
-  adx_sitesettingid: f2416fae-9d81-ef11-ac20-002248a46a38
-  adx_value: ssssssssssssssssereee
 - adx_name: CustomerSupport/CaseEntitlementEnabled
   adx_sitesettingid: f2b1a0ce-626f-ef11-a670-002248a3bd1d
   adx_value: false
@@ -229,6 +214,3 @@
   adx_name: Authentication/LoginThrottling/MaxAttemptsTimeLimitTimeSpan
   adx_sitesettingid: f8b1a0ce-626f-ef11-a670-002248a3bd1d
   adx_value: 00:03:00
-- adx_name: Provider/AppInsight/instrumentationKey
-  adx_sitesettingid: feecec19-3274-ef11-a671-000d3adb261f
-  adx_value: 41197e75-163e-44b3-9223-26255bb30d3vvv

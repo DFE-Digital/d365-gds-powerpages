@@ -1,4 +1,4 @@
-{% assign appInsightKey = settings['DfE/Central/AppInsight/InstrumentationKey'] %}
+{% assign appInsightKey = settings['Central/AppInsight/InstrumentationKey'] %}
 <script type="text/javascript">
 //Download and configure Application Insights
 // App Insight to be commented
@@ -38,4 +38,4 @@ appInsights.addTelemetryInitializer(telemetryInitializer);
  //Log the Portal Page
 appInsights.trackPageView(document.title , document.url, document.referrer);
 </script>
-{% include 'DfE/Analytics/LastSuccessfulLoginTelemetry' %}
+ {% include 'Central/Analytics/LastSuccessfulLoginTelemetry' %}
