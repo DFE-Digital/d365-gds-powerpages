@@ -10,10 +10,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout Cleanup Branch
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        ref: cleanup
 
     - name: Remove central-* Files and Folders
       shell: pwsh
@@ -78,6 +79,6 @@ jobs:
         # Stage and commit all changes
         git add .
         git commit -m "Cleanup DfE portal files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
-        
-        # Push changes to the branch from which the workflow was triggered
-        git push origin HEAD:${{ github.head_ref || github.ref_name }}
+
+        # Push changes back to the cleanup branch
+        git push origin HEAD:refs/heads/cleanup
