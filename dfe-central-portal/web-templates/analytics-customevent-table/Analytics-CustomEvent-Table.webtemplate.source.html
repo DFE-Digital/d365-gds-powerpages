@@ -1,0 +1,10 @@
+if (appInsights) {
+  var eventName = "{{tableName}}";
+  appInsights.trackEvent({
+    name: eventName,
+    properties: {
+      Operation: "{{operationType}}",
+      EventType:"Table"     
+    }
+  });  
+}
