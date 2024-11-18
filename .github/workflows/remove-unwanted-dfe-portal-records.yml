@@ -1,8 +1,9 @@
-name: Remove Unwanted DfE Portal Files
+name: Cleanup DfE Portal Files
 
 on:
-  repository_dispatch:
-    types: [trigger-child-dfe-portal]
+  pull_request:
+    branches:
+      - cleanup
 
 jobs:
   build:
@@ -78,7 +79,7 @@ jobs:
       run: |
         # Stage and commit all changes
         git add .
-        git commit -m "Removed unwanted DfE portal files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        git commit -m "Cleanup DfE portal files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD
