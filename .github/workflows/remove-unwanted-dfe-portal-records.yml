@@ -84,7 +84,7 @@ jobs:
       run: |
         # Stage and commit all changes
         git add .
-        git commit -m "Added DfE portal download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        git commit -m "Removed unwanted DfE portal files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD
