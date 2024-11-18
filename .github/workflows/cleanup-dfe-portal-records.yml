@@ -46,8 +46,11 @@ jobs:
         Write-Output "Original YAML Content:"
         $yamlContent | ConvertTo-Yaml | Write-Output
 
-        # Iterate over top-level sections and filter records with DisplayName starting with 'Central/'
-        foreach ($section in $yamlContent.Keys) {
+        # Create a copy of the keys to safely iterate
+        $keys = @($yamlContent.Keys)
+
+        # Iterate over the copied keys and filter records
+        foreach ($section in $keys) {
             # Only process sections that are lists
             if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
                 $yamlContent[$section] = $yamlContent[$section] | Where-Object {
@@ -62,7 +65,6 @@ jobs:
 
         # Save the updated YAML back to the file
         $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
-
 
     - name: Configure Git
       run: |
