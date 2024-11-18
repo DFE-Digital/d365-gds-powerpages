@@ -60,4 +60,10 @@ jobs:
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD
+
+    - name: Trigger Child Workflow
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        event-type: trigger-child-dfe-portal
         
