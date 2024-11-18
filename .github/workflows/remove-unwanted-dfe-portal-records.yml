@@ -9,13 +9,17 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Extract Original Actor
+      run: |
+        echo "Original actor: ${{ github.event.client_payload.original_actor }}"
+      
     - name: Check Permissions
       shell: pwsh
       run: |
         $authorizedUsers = "${{ secrets.AUTHORIZED_USERS }}"
-        $currentUser = "${{ github.actor }}"
-        if ($authorizedUsers -notcontains $currentUser) {
-          Write-Output "Error: You do not have permission to run this workflow."
+        $originalActor = "${{ github.event.client_payload.original_actor }}"
+        if ($authorizedUsers -notcontains $originalActor) {
+          Write-Output "Error: $originalActor is not authorized to run this workflow."
           exit 1
         }
     
