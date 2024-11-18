@@ -80,5 +80,4 @@ jobs:
         git commit -m "Cleanup DfE portal files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
         
         # Push changes to the branch from which the workflow was triggered
-        git push origin HEAD
-        
+        git push origin HEAD:${{ github.head_ref || github.ref_name }}
