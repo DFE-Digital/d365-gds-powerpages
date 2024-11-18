@@ -9,16 +9,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Check Permissions
-      shell: pwsh
+    - name: Debug Branch
       run: |
-        $authorizedUsers = "${{ secrets.AUTHORIZED_USERS }}"
-        $currentUser = "${{ github.actor }}"
-        if ($authorizedUsers -notcontains $currentUser) {
-          Write-Output "Error: You do not have permission to run this workflow."
-          exit 1
-        }
-    
+        echo "Running on branch: ${{ github.ref }}"
+      
     - name: Checkout Repository
       uses: actions/checkout@v2
       with:
@@ -84,7 +78,7 @@ jobs:
       run: |
         # Stage and commit all changes
         git add .
-        git commit -m "Added DfE portal download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        git commit -m "Removed unwanted DfE portal files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD
