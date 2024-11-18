@@ -1,0 +1,28 @@
+<div class="dfe-width-container">
+  {% include 'DfE/Content/PhaseBanner/Beta' %}
+  {% block breadcrumbs %}
+    {% include 'DfE/Content/Breadcrumbs' %}
+  {% endblock %}
+  <main class="dfe-main-wrapper" id="main-content" role="main">
+    <div class="dfe-grid-row">
+      <div class="dfe-grid-column-full">
+        <div id="error-summary-container"></div>
+        {% block title %}
+          {% include 'DfE/Content/PageHeading' %}
+        {% endblock %}
+        {% block main %}
+          {% include 'Page Copy' %}
+          {% if page.adx_entitylist %}
+            {% include 'entity_list' key:page.adx_entitylist.id %}
+          {% endif %}    
+          {% if page.adx_entityform %}
+            {% entityform id: page.adx_entityform.id %}
+          {% endif %}    
+          {% if page.adx_webform %}
+            {% webform id: page.adx_webform.id %}
+          {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+  </main>
+</div>
