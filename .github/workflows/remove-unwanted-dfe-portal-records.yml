@@ -1,0 +1,91 @@
+name: Remove Unwanted DfE Portal Files
+
+on:
+  repository_dispatch:
+    types: [trigger-child-dfe-portal]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Check Permissions
+      shell: pwsh
+      run: |
+        $authorizedUsers = "${{ secrets.AUTHORIZED_USERS }}"
+        $currentUser = "${{ github.actor }}"
+        if ($authorizedUsers -notcontains $currentUser) {
+          Write-Output "Error: You do not have permission to run this workflow."
+          exit 1
+        }
+    
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Remove central-* Files and Folders
+      shell: pwsh
+      run: |
+        Get-ChildItem -Path "./dfe-central-portal/" -Filter "central-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Install PowerShell YAML Module
+      shell: pwsh
+      run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
+
+    - name: Remove Central/* Records from Manifest
+      shell: pwsh
+      run: |
+        # Load YAML module
+        Import-Module powershell-yaml
+
+        # Path to YAML file
+        $yamlPath = "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
+
+        # Load YAML content
+        $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
+
+        # Debug: Output the original structure of the YAML
+        Write-Output "Original YAML Content:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
+
+        # Iterate over top-level sections and filter records with DisplayName starting with 'Central/'
+        foreach ($section in $yamlContent.Keys) {
+            # Only process sections that are lists
+            if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
+                $yamlContent[$section] = $yamlContent[$section] | Where-Object {
+                    $_.DisplayName -notlike 'Central/*'
+                }
+            }
+        }
+
+        # Debug: Output the modified structure of the YAML
+        Write-Output "Modified YAML Content:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
+
+        # Save the updated YAML back to the file
+        $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
+
+
+    - name: Configure Git
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+    - name: Commit and Push Portal Files
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Stage and commit all changes
+        git add .
+        git commit -m "Added DfE portal download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        
+        # Push changes to the branch from which the workflow was triggered
+        git push origin HEAD
+        
