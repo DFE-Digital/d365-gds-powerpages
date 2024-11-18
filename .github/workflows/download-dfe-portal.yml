@@ -66,5 +66,5 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         event-type: trigger-child-dfe-portal
-        client-payload: '{"original_actor": "${{ github.actor }}"}'
+        client-payload: '{"branch": "${{ github.ref }}" }'
         
