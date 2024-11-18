@@ -45,58 +45,54 @@ jobs:
         website-id: ${{ secrets.DFE_WEBSITE_ID }}
         overwrite: true
 
-#    - name: Remove central-* Files and Folders
-#      shell: pwsh
-#      run: |
-#        Get-ChildItem -Path "./dfe-central-portal/" -Filter "central-*" -Recurse | ForEach-Object {
-#          if ($_.PSIsContainer) {
-#            Remove-Item -Recurse -Force $_.FullName
-#          } else {
-#            Remove-Item -Force $_.FullName
-#          }
-#        }
+    - name: Remove central-* Files and Folders
+      shell: pwsh
+      run: |
+        Get-ChildItem -Path "./dfe-central-portal/" -Filter "central-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
 
-#    - name: Install PowerShell YAML Module
-#      shell: pwsh
-#      run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
+    - name: Install PowerShell YAML Module
+      shell: pwsh
+      run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
 
-#    - name: Remove Central/* Records from Manifest
-#      shell: pwsh
-#      run: |
+    - name: Remove Central/* Records from Manifest
+      shell: pwsh
+      run: |
         # Load YAML module
-#        Import-Module powershell-yaml
+        Import-Module powershell-yaml
 
         # Path to YAML file
-#        $yamlPath = "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
+        $yamlPath = "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
 
         # Load YAML content
-#        $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
+        $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
 
-        # Debug: Output the structure of the loaded YAML
-#        Write-Output "Original YAML structure:"
-#        $yamlContent | ConvertTo-Yaml | Write-Output
+        # Debug: Output the original structure of the YAML
+        Write-Output "Original YAML Content:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
 
-        # Create a list of section names to iterate over safely
-#        $sections = $yamlContent.Keys | ForEach-Object { $_ }
+        # Iterate over top-level sections and filter records with DisplayName starting with 'Central/'
+        foreach ($section in $yamlContent.Keys) {
+            # Only process sections that are lists
+            if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
+                $yamlContent[$section] = $yamlContent[$section] | Where-Object {
+                    $_.DisplayName -notlike 'Central/*'
+                }
+            }
+        }
 
-        # Process each section and filter records within
-#        foreach ($section in $sections) {
-            # Ensure the section is a list before modifying
-#            if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
-#                $yamlContent[$section] = $yamlContent[$section] | Where-Object {
-#                    $_.DisplayName -notlike 'Central/*'
-#                }
-#            } else {
-#                Write-Output "Skipping section '$section' because it is not a list."
-#            }
-#        }
+        # Debug: Output the modified structure of the YAML
+        Write-Output "Modified YAML Content:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
 
-        # Debug: Output the modified YAML structure
-#        Write-Output "Modified YAML structure:"
-#        $yamlContent | ConvertTo-Yaml | Write-Output
+        # Save the updated YAML back to the file
+        $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
 
-        # Save the updated content back to the YAML file
-#        $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
 
     - name: Configure Git
       run: |
