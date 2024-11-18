@@ -9,7 +9,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    
+    - name: Debug Branch
+      run: |
+        echo "Running on branch: ${{ github.ref }}"
+      
     - name: Checkout Repository
       uses: actions/checkout@v2
       with:
