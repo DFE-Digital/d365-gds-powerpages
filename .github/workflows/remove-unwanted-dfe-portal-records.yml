@@ -10,14 +10,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Extract Branch
-      run: |
-        echo "Branch: ${{ github.event.client_payload.branch }}"
-
-    - name: Checkout Specific Branch
+    - name: Checkout Repository
       uses: actions/checkout@v2
       with:
-        ref: ${{ github.event.client_payload.branch }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Remove central-* Files and Folders
       shell: pwsh
