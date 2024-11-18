@@ -16,8 +16,14 @@ jobs:
     - name: Check Permissions
       shell: pwsh
       run: |
-        $authorizedUsers = "${{ secrets.AUTHORIZED_USERS }}"
-        $originalActor = "${{ github.event.client_payload.original_actor }}"
+        # Get the list of authorized users and clean up whitespace
+        $authorizedUsers = "${{ secrets.AUTHORIZED_USERS }}".Split(",") | ForEach-Object { $_.Trim() }
+        $originalActor = "${{ github.event.client_payload.original_actor }}".Trim()
+
+        Write-Output "Authorized Users: $authorizedUsers"
+        Write-Output "Original Actor: $originalActor"
+
+        # Check if the original actor is in the list of authorized users
         if ($authorizedUsers -notcontains $originalActor) {
           Write-Output "Error: $originalActor is not authorized to run this workflow."
           exit 1
