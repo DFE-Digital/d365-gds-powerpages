@@ -31,7 +31,7 @@
     <script>    
      
         console.log("testing");
-        {% include 'Central/Analytics/CustomEvent/LandingPage' %}
+        {% include 'Analytics/CustomEvent/LandingPage' %}
         console.log("landing page");
 
         $('#searchInput').on('keyup', function() {
@@ -51,7 +51,7 @@
                 data.results.forEach(item => {
                   $('#results').append(`<li class='result-item'><a class="govuk-link" href="#">${item.fullName}</a></li>`);
                 });
-                {% include 'Central/Analytics/CustomEvent/Table' tableName:"Account",operationType:"Update" %}                                           
+                {% include 'Analytics/CustomEvent/Table' tableName:"Account",operationType:"Update" %}                                           
               } else {
                 $('#results').addClass("govuk-visually-hidden");
               }

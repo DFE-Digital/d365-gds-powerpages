@@ -13,9 +13,9 @@
  {% assign customerJourneyCategory = entities['dfe_customerjourneyconfig'][params.categoryId] %}
  {% assign customerJourneyNext = entities['dfe_customerjourneyconfig'][customerJourneyCategory.dfe_next.id] %}
 
- {% assign continueURL =  snippets["Central/Enquiry/WebsiteUrl"]  | append: "/" | append: customerJourneyNext.dfe_webpagepartialurl | append: "?nextId=" | append: customerJourneyNext.dfe_next.id %}
+ {% assign continueURL =  snippets["Enquiry/WebsiteUrl"]  | append: "/" | append: customerJourneyNext.dfe_webpagepartialurl | append: "?nextId=" | append: customerJourneyNext.dfe_next.id %}
  {% if customerJourneyNext.dfe_type.value == '222750002' %}
-  {% assign continueURL =  snippets["Central/Enquiry/WebsiteUrl"]  | append: "/" | append: customerJourneyNext.dfe_webpagepartialurl %}
+  {% assign continueURL =  snippets["Enquiry/WebsiteUrl"]  | append: "/" | append: customerJourneyNext.dfe_webpagepartialurl %}
  {% endif %}
 {% endif %}
 {% editable snippets 'Central/Enquiry/CategoryContent' %}

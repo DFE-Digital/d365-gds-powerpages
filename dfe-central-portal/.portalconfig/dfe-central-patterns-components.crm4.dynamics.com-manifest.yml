@@ -24,16 +24,16 @@ adx_communityforumaccesspermission_webrole:
   IsDeleted: false
 adx_contentsnippet:
 - RecordId: 2592393e-cca1-ef11-8a6a-002248a46a38
-  DisplayName: Central/Enquiry/CategoryContent
-  CheckSum: 2474ec87cad8e4ede43860d78f0899de7e91ac49c33bbf70eb164fbdb73e3105
+  DisplayName: Enquiry/CategoryContent
+  CheckSum: 74c4780d0c30a87fd958d6f278b7dd7e31cdfd02eafa5f823bb9c12eea63b0be
   IsDeleted: false
 - RecordId: 28d0c3c5-39a0-ef11-8a6a-002248a1e71d
-  DisplayName: Central/Enquiry/LandingPageContent2
-  CheckSum: bab07571dadc0ae332dcb2f18ba90e4c9824b10f710df4b81eef4352a959bcf4
+  DisplayName: Enquiry/LandingPageContent2
+  CheckSum: 528c7857929c7d929aea023e7774dba5fe62613467a4f894481048d8524a6a28
   IsDeleted: false
 - RecordId: 37073aac-39a0-ef11-8a6a-002248a1e71d
-  DisplayName: Central/Enquiry/LandingPageContent1
-  CheckSum: 3c6a03baebd5196abb966056fd044ae38d7bcb5d862551f3f3a2effcc4fd6fe1
+  DisplayName: Enquiry/LandingPageContent1
+  CheckSum: a8f4f58dc6734c2f68cd826aeaa000bbd330b823740e6882af69ebf81c305f25
   IsDeleted: false
 - RecordId: 382ba0c8-626f-ef11-a670-002248a3bd1d
   DisplayName: Header/Search/ToolTip
@@ -140,8 +140,8 @@ adx_contentsnippet:
   CheckSum: dc2cefae4ced90d2d3bcc5ddd900ed4a5815998f3478a9b6c7e4c85324bbbec6
   IsDeleted: false
 - RecordId: 593c1f78-c0a1-ef11-8a6a-002248a46a38
-  DisplayName: Central/Enquiry/WebsiteUrl
-  CheckSum: a6e331eab38c25a93fc5142f90bf4aee937113a6d554220b06333b7ec05bc3ee
+  DisplayName: Enquiry/WebsiteUrl
+  CheckSum: bffee253ab3555ba6c5cd51dc240ecaecde1f91dc2e0d8004015d3f59425381e
   IsDeleted: false
 - RecordId: 5a2ba0c8-626f-ef11-a670-002248a3bd1d
   DisplayName: Account/Register/ExternalAuthenticationFailed
@@ -496,8 +496,8 @@ adx_contentsnippet:
   CheckSum: 665cb11a7a016faa09cfe8e4adf94335163ec2b2aea7eafbd1466e40f1b4c69b
   IsDeleted: false
 - RecordId: b3f51673-30a0-ef11-8a6a-002248a1e71d
-  DisplayName: Central/Enquiry/LandingPageHeading1
-  CheckSum: 3f1e6658a3c146b30d7d3c6f857a1cb002843117ce3693d8a7e098f3397e636f
+  DisplayName: Enquiry/LandingPageHeading1
+  CheckSum: 63f7ed9b205c7fa0e50a83541b54083ab4c3ac88abd2e199268210a719a4a102
   IsDeleted: false
 - RecordId: b404f4c4-626f-ef11-a670-000d3adb261f
   DisplayName: Category - Print Button Label
@@ -544,8 +544,8 @@ adx_contentsnippet:
   CheckSum: 9c97f552d76944b39c4ee65affb9c94d57f6081cb2ea77d2b081a04627364685
   IsDeleted: false
 - RecordId: cf427d87-30a0-ef11-8a6a-002248a1e71d
-  DisplayName: Central/Enquiry/LandingPageHeading2
-  CheckSum: be21067e8211892b9a9b2a746ba2c1d37c9bce02fa49d9d654f5b22717de0451
+  DisplayName: Enquiry/LandingPageHeading2
+  CheckSum: ca2b41c49cd49d45869e1f5eefd4ec1cebaabf4843e3b8746d0fbd423604d8c7
   IsDeleted: false
 - RecordId: deff6a23-1e70-ef11-a670-002248a430ac
   DisplayName: DfE/Header/CookiesBanner
@@ -752,16 +752,16 @@ adx_pagetemplate:
   CheckSum: dd5db467d2d1e9dd9771e67cd06f6483520368ae8f1a7cfff03339cb85307b12
   IsDeleted: false
 - RecordId: 792cbd7e-26a0-ef11-8a6a-002248a1e71d
-  DisplayName: Central/Enquiry/LandingPage
-  CheckSum: 7c6aa7ec76638cd49b88863a4a4604bb55b797dea2347bd0e227ae7777297083
+  DisplayName: Enquiry/LandingPage
+  CheckSum: 1c2e16ccc12b945d3ef1bd841132791cb0eaf30772ce72f19228a5b1a8317930
   IsDeleted: false
 - RecordId: ad08c42c-b687-ef11-ac20-002248a46a38
   DisplayName: Central/GetActiveContacts
   CheckSum: 4bb5779588c2363b462b4c83e81e0c20e5b4542644f0d7fb3e74005ace54fed5
   IsDeleted: false
 - RecordId: bceb51ba-c3a1-ef11-8a6a-002248a46a38
-  DisplayName: Central/Enquiry/CategoryPage
-  CheckSum: a2a0ef8c9cf307c454579eb2fdd505a30b31aa3efb70d47b52e0c80fbcaaef36
+  DisplayName: Enquiry/CategoryPage
+  CheckSum: 6ab2126132c90b7c28f7f1c1c463d3a08827b0ec24329c986c409a7e53078329
   IsDeleted: false
 - RecordId: d3b1a0ce-626f-ef11-a670-002248a3bd1d
   DisplayName: DfE/Home
@@ -1178,8 +1178,8 @@ adx_weblinkset:
   IsDeleted: false
 adx_webpage:
 - RecordId: 02fad1e6-c3a1-ef11-8a6a-002248a46a38
-  DisplayName: Central/Enquiry/CategoryPage
-  CheckSum: 36f03f023b75cc5812c465375289bd16433891c6cdbeaae03f2a0d752d042abc
+  DisplayName: Enquiry/CategoryPage
+  CheckSum: 44a52ccd977d1751796a258cda811afeb11d022447d513424c7bb3b06ea17cff
   IsDeleted: false
 - RecordId: 06eaeed4-626f-ef11-a670-002248a3bd1d
   DisplayName: Profile
@@ -1214,12 +1214,12 @@ adx_webpage:
   CheckSum: c12c6df67e03b3001444ee702581517bc7e4605db77971ccd19de515ee19d68b
   IsDeleted: false
 - RecordId: 20e5c73f-24a0-ef11-8a6a-002248a1e71d
-  DisplayName: Central/Enquiries/LandingPage
-  CheckSum: c9dd3a9f6c3f7ded74cde278607921ca8236983792356dbc606d297cf4f29b7f
+  DisplayName: Enquiries/LandingPage
+  CheckSum: 4694dc94a3643779a098a32e890eca9dfc96449f6f5519e5ab4a2097d9fe0ab4
   IsDeleted: false
 - RecordId: 355bcbe0-c3a1-ef11-8a6a-002248a46a38
-  DisplayName: Central/Enquiry/CategoryPage
-  CheckSum: 76ad19a1fc85226729e6a97ea9ed2de88c330bbd41d986fb8af07eca4974fce5
+  DisplayName: Enquiry/CategoryPage
+  CheckSum: e9107890aa6912b7a52027085f32478e5451f3ecf4f30a06146cc47e66284bed
   IsDeleted: false
 - RecordId: 6e866561-b687-ef11-ac20-002248a46a38
   DisplayName: Central/GetActiveContacts
@@ -1242,8 +1242,8 @@ adx_webpage:
   CheckSum: a5b90c15319735fb606a9efd2cacedd37d347f56b76f4f2ea49f26667afb2d3e
   IsDeleted: false
 - RecordId: e2d5ab39-24a0-ef11-8a6a-002248a1e71d
-  DisplayName: Central/Enquiry/LandingPage
-  CheckSum: 347a1602633709851e41ca5e3961cb574245cf1abf5b49ec8abd02b65e9c7ad4
+  DisplayName: Enquiry/LandingPage
+  CheckSum: f48070385ba80ae82fc582af1a9b9ec7582fc44d0cf41c9ecfdf76e78b36ab1d
   IsDeleted: false
 - RecordId: f4d46967-b687-ef11-ac20-002248a46a38
   DisplayName: Central/GetActiveContacts
@@ -1327,8 +1327,8 @@ adx_websitelanguage:
   IsDeleted: false
 adx_webtemplate:
 - RecordId: 019d5d40-26a0-ef11-8a6a-002248a1e71d
-  DisplayName: Central/Enquiry/LandingPage
-  CheckSum: a8c87002c5446ec34c8aa75506acbcac7b1e12fc0fbc80010f8a5464556c69b7
+  DisplayName: Enquiry/LandingPage
+  CheckSum: cd2df90ab13362dc4fc3fef264d3b240ecaa8d5887990d41a7979ce5d0fa0b78
   IsDeleted: false
 - RecordId: 02072250-1b70-ef11-a671-0022489df671
   DisplayName: DfE/Error/AccessDenied
@@ -1383,8 +1383,8 @@ adx_webtemplate:
   CheckSum: e15616a9c203d2ff49edf7e758560d0c5dba1bec40c0da182e1fdfe9056842b4
   IsDeleted: false
 - RecordId: 91a6bc2f-c0a1-ef11-8a6a-002248a46a38
-  DisplayName: Central/Enquiry/CategoryPage
-  CheckSum: 14eb3ee9b9cf675e16537629c0def5052ed1fb4d95d20ce9f1d637b3cdf9d86b
+  DisplayName: Enquiry/CategoryPage
+  CheckSum: c3d1974d9affb6f9d1ba2884c8d7aed2c084fa2cc5e668e4234f3dd06a163981
   IsDeleted: false
 - RecordId: a118d9d2-626f-ef11-a671-0022489df671
   DisplayName: Page Copy
@@ -1399,12 +1399,12 @@ adx_webtemplate:
   CheckSum: 3ad2d9e4e77693c485b194ebc0feae80290863491103be7411d73f86afc03d1b
   IsDeleted: false
 - RecordId: d78bb0a0-b0a1-ef11-8a6a-002248a46a38
-  DisplayName: Central/Enquiry/GetCustomerJourneyConfig
-  CheckSum: 9d2f42d5e7faf74486d1ce1c9259a82702b831b7aea62231ecfd0dd1a48753d4
+  DisplayName: Enquiry/GetCustomerJourneyConfig
+  CheckSum: 6f371edbb4f4e252893208f986048b13c4eee2c108408504954ea2573b5196f3
   IsDeleted: false
 - RecordId: d7901757-d187-ef11-ac20-002248a46a38
   DisplayName: Central/GetContactsPage
-  CheckSum: f097231f2bb36223704bb1ac6a55d279b72a61b5a1d88cad970881af7e5a2723
+  CheckSum: 968be45b64cc38baed4e99653968a131a7795d08be801548d35762e095d83b09
   IsDeleted: false
 - RecordId: dafca6d7-626f-ef11-a670-002248a430ac
   DisplayName: DfE/Layouts/Header

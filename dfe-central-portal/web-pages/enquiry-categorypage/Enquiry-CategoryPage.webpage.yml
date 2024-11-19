@@ -4,7 +4,7 @@ adx_excludefromsearch: false
 adx_feedbackpolicy: 756150000
 adx_hiddenfromsitemap: false
 adx_isroot: true
-adx_name: Central/Enquiry/CategoryPage
+adx_name: Enquiry/CategoryPage
 adx_pagetemplateid: bceb51ba-c3a1-ef11-8a6a-002248a46a38
 adx_parentpageid: 0c7532d4-626f-ef11-a670-7c1e522065e3
 adx_partialurl: enquiry-category-page
