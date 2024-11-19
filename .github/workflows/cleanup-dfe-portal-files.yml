@@ -5,7 +5,7 @@ on:
     workflows: ["Download DfE Portal"]
     types:
       - completed
-      
+
 jobs:
   build:
     runs-on: windows-latest
@@ -39,7 +39,18 @@ jobs:
           }
         }
 
-    - name: Remove enquiry-* Files and Folders
+    - name: Remove Tracking Code Content Snippet
+      shell: pwsh
+      run: |
+        Get-ChildItem -Path "./dfe-central-portal/content-snippets/" -Filter "tracking-code*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Remove Tracking Code-* Files and Folders
       shell: pwsh
       run: |
         Get-ChildItem -Path "./dfe-central-portal/" -Filter "enquiry-*" -Recurse | ForEach-Object {
@@ -54,7 +65,7 @@ jobs:
       shell: pwsh
       run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
 
-    - name: Remove Central/* and Analytics/* Records from Manifest
+    - name: Remove Central/* and Analytics/* and Enquiry/* Records from Manifest
       shell: pwsh
       run: |
         # Load YAML module
@@ -89,6 +100,34 @@ jobs:
 
         # Save the updated YAML back to the file
         $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
+
+    - name: Remove Analytics/* Items from SiteSetting YAML
+      shell: pwsh
+      run: |
+        # Load YAML module
+        Import-Module powershell-yaml
+
+        # Path to the sitesetting.yml file
+        $siteSettingYamlPath = "./dfe-central-portal/sitesetting.yml"
+
+        # Load the site setting YAML content
+        $siteSettingYamlContent = Get-Content -Path $siteSettingYamlPath -Raw | ConvertFrom-Yaml
+
+        # Debug: Output the original structure of the site setting YAML
+        Write-Output "Original Site Setting YAML Content:"
+        $siteSettingYamlContent | ConvertTo-Yaml | Write-Output
+
+        # Filter the site setting YAML to remove Analytics/* items
+        $siteSettingYamlContent = $siteSettingYamlContent | Where-Object {
+          $_.adx_name -notlike 'Analytics/*'
+        }
+
+        # Debug: Output the modified site setting YAML content
+        Write-Output "Modified Site Setting YAML Content:"
+        $siteSettingYamlContent | ConvertTo-Yaml | Write-Output
+
+        # Save the updated site setting YAML back to the file
+        $siteSettingYamlContent | ConvertTo-Yaml | Set-Content -Path $siteSettingYamlPath
 
     - name: Configure Git
       run: |
