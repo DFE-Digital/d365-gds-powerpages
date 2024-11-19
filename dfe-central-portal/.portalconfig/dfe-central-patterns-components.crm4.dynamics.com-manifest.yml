@@ -1328,7 +1328,7 @@ adx_websitelanguage:
 adx_webtemplate:
 - RecordId: 019d5d40-26a0-ef11-8a6a-002248a1e71d
   DisplayName: Enquiry/LandingPage
-  CheckSum: 10256fd6ab5e69a20861a5f9e86df5dcfe4b9b058cdcac50162c0d2bf782788b
+  CheckSum: 3dc7726293de4a3d669fc9dd0a0fe635346758b16041a46e8f31533245ad77d8
   IsDeleted: false
 - RecordId: 02072250-1b70-ef11-a671-0022489df671
   DisplayName: DfE/Error/AccessDenied
@@ -1384,7 +1384,7 @@ adx_webtemplate:
   IsDeleted: false
 - RecordId: 91a6bc2f-c0a1-ef11-8a6a-002248a46a38
   DisplayName: Enquiry/CategoryPage
-  CheckSum: c3d1974d9affb6f9d1ba2884c8d7aed2c084fa2cc5e668e4234f3dd06a163981
+  CheckSum: 5c82af958eb5b04f89f00444909612d71d07332c1ff9502a086d129743d23c70
   IsDeleted: false
 - RecordId: a118d9d2-626f-ef11-a671-0022489df671
   DisplayName: Page Copy
