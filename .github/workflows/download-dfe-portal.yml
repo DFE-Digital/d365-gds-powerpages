@@ -44,6 +44,7 @@ jobs:
         download-path: .
         website-id: ${{ secrets.DFE_WEBSITE_ID }}
         overwrite: true
+        excluded-entities: "adx_urlhistory"
 
     - name: Configure Git
       run: |
