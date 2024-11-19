@@ -1,0 +1,45 @@
+name: Upload DfE Portal to Target Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      client-id:
+        description: 'Azure AD Client ID for target environment'
+        required: true
+      client-secret:
+        description: 'Azure AD Client Secret for target environment'
+        required: true
+      environment-url:
+        description: 'Environment URL for the target environment'
+        required: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Main branch
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: main
+
+    - name: Install Power Platform Tools
+      uses: microsoft/powerplatform-actions/actions-install@v1
+
+    - name: Authentication Check
+      uses: microsoft/powerplatform-actions/who-am-i@v1
+      with:
+        environment-url: ${{ inputs.environment-url }}
+        app-id: ${{ inputs.client-id }}
+        client-secret: ${{ inputs.client-secret }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+
+    - name: Upload DfE Portal to Target Environment
+      uses: microsoft/powerplatform-actions/upload-paportal@v1
+      with:
+        environment-url: ${{ inputs.environment-url }}
+        app-id: ${{ inputs.client-id }}
+        client-secret: ${{ inputs.client-secret }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        upload-path: ./govuk-central-portal
