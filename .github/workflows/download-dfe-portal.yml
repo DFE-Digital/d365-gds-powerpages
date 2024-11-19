@@ -60,3 +60,17 @@ jobs:
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD
+
+    - name: Merge Current Branch into Main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Checkout the main branch
+        git fetch origin main
+        git checkout main
+
+        # Merge the feature branch into main, resolving conflicts in favor of the feature branch
+        git merge --no-ff -X theirs HEAD || echo "No conflicts detected"
+
+        # Push the merged changes to main
+        git push origin main
