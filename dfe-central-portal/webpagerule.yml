@@ -1,0 +1,23 @@
+- adx_name: Grant Change to Administrators
+  adx_right: 1
+  adx_scope: 1
+  adx_webpageaccesscontrolrule_webrole:
+  - 247532d4-626f-ef11-a670-7c1e522065e3
+  adx_webpageaccesscontrolruleid: 167532d4-626f-ef11-a670-7c1e522065e3
+  adx_webpageid: 0c7532d4-626f-ef11-a670-7c1e522065e3
+- adx_name: Grant Change to Content
+  adx_right: 1
+  adx_scope: 1
+  adx_webpageaccesscontrolrule_webrole: []
+  adx_webpageaccesscontrolruleid: 177532d4-626f-ef11-a670-7c1e522065e3
+- adx_name: Grant Change to Events
+  adx_right: 1
+  adx_scope: 1
+  adx_webpageaccesscontrolrule_webrole: []
+  adx_webpageaccesscontrolruleid: 2aadaed1-626f-ef11-a670-002248a430ac
+- adx_name: Restrict Read to Create Case
+  adx_right: 2
+  adx_scope: 1
+  adx_webpageaccesscontrolrule_webrole:
+  - 227532d4-626f-ef11-a670-7c1e522065e3
+  adx_webpageaccesscontrolruleid: 6b0a38d1-626f-ef11-a670-000d3adb261f
