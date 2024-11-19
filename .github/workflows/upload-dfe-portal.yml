@@ -1,4 +1,4 @@
-name: Upload DfE Portal to Target Environment
+name: Create DfE Portal
 
 on:
   workflow_dispatch:
