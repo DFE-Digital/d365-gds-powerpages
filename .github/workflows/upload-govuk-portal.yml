@@ -1,4 +1,4 @@
-name: Upload DfE Portal to Target Environment
+name: Upload GOVUK Portal to Target Environment
 
 on:
   workflow_dispatch:
