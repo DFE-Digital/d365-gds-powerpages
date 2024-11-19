@@ -1,10 +1,11 @@
 name: Cleanup DfE Portal Files
 
 on:
-  push:
-    branches:
-      - main
-
+  workflow_run:
+    workflows: ["Download DfE Portal"]
+    types:
+      - completed
+      
 jobs:
   build:
     runs-on: windows-latest
