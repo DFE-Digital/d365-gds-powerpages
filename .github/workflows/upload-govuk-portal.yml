@@ -1,4 +1,4 @@
-name: Upload GOVUK Portal to Target Environment
+name: Create GOVUK Portal
 
 on:
   workflow_dispatch:
@@ -35,7 +35,7 @@ jobs:
         client-secret: ${{ inputs.client-secret }}
         tenant-id: ${{ secrets.TENANT_ID }}
 
-    - name: Upload DfE Portal to Target Environment
+    - name: Upload GOVUK Portal to Target Environment
       uses: microsoft/powerplatform-actions/upload-paportal@v1
       with:
         environment-url: ${{ inputs.environment-url }}
