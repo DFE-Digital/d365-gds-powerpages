@@ -1,7 +1,7 @@
 name: Cleanup DfE Portal Files
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -38,6 +38,17 @@ jobs:
           }
         }
 
+    - name: Remove enquiry-* Files and Folders
+      shell: pwsh
+      run: |
+        Get-ChildItem -Path "./dfe-central-portal/" -Filter "enquiry-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
     - name: Install PowerShell YAML Module
       shell: pwsh
       run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
@@ -66,7 +77,7 @@ jobs:
           # Only process sections that are lists
           if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
             $yamlContent[$section] = $yamlContent[$section] | Where-Object {
-              $_.DisplayName -notlike 'Central/*' -and $_.DisplayName -notlike 'Analytics/*'
+              $_.DisplayName -notlike 'Central/*' -and $_.DisplayName -notlike 'Analytics/*' -and $_.DisplayName -notlike 'Enquiry/*'
             }
           }
         }
