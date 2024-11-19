@@ -22,7 +22,7 @@
  {% assign next= customerjourneyconfig_result[0].dfe_next.id %}
  <!-- get continue link for landing page -->
  {% assign customerJourney = entities['dfe_customerjourneyconfig'][next] %}
- {% assign continueURL =  snippets["Enquiry/WebsiteUrl"]  | append: "/" | append: customerJourney.dfe_webpagepartialurl | append: "?categoryId=" | append: next %}
+ {% assign continueURL =  snippets["Enquiry/WebsiteUrl"]  | append: "/" | append: customerJourney.dfe_webpagepartialurl | append: "?nextCustJourid=" | append: next %}
 {% endif %}
 <h2 class='govuk-heading-m'>{% editable snippets 'Enquiry/LandingPageHeading1' %}</h2>
 {% editable snippets 'Enquiry/LandingPageContent1' %}
