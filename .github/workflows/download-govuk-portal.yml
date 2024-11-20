@@ -33,8 +33,27 @@ jobs:
         app-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
+
+    - name: Pre-Download Cleanup
+      shell: pwsh
+      run: |
+        # Define the files to remove
+        $filesToRemove = @(
+          "./govuk-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml",
+          "./govuk-central-portal/.portalconfig/manifest.yml"
+        )
         
-    - name: Download DfE Portal
+        # Loop through each file and remove it if it exists
+        foreach ($file in $filesToRemove) {
+          if (Test-Path $file) {
+            Remove-Item -Path $file -Force
+            Write-Output "Removed $file"
+          } else {
+            Write-Output "$file does not exist, skipping"
+          }
+        }
+        
+    - name: Download GOVUK Portal
       uses: microsoft/powerplatform-actions/download-paportal@v1
       with:
         environment-url: ${{ secrets.POWER_PLATFORM_URL }}
@@ -51,7 +70,7 @@ jobs:
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
 
-    - name: Commit and Push Portal Files
+    - name: Commit and Push to Feature
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
