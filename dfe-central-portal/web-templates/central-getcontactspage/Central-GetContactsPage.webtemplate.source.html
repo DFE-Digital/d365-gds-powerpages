@@ -1,0 +1,89 @@
+{% extends 'DfE/Layouts/2ColumnWideLeft'%}
+
+{% block title %}
+  <h1 class="govuk-heading-l">{{ page.title }}</h1>
+{% endblock %}
+
+{% block main %}
+{% assign websiteurl = website.adx_primarydomainname | prepend: 'https://' %}
+
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="searchInput">
+        Search for a contact - {{websiteurl}}
+      </label>
+      <input class="govuk-input" id="searchInput" name="eventName" type="text">
+    </div>
+    
+    <ul id="results" class="govuk-list govuk-visually-hidden">       
+    </ul>
+
+    <table class="govuk-table" id="selectedItemsTable">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Selected items</th>
+          <th scope="col" class="govuk-table__header">Action</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+      </tbody>
+    </table>
+   
+    <script>    
+     
+        console.log("testing");
+        {% include 'Analytics/CustomEvent/LandingPage' %}
+        console.log("landing page");
+
+        $('#searchInput').on('keyup', function() {
+          const query = $(this).val().toLowerCase();
+          if (query.length >= 3) {
+            // const filteredItems = items.filter(item => item.toLowerCase().includes(query));
+            var cacheValue = Date.now();
+            var _url = "/get-active-contacts/?firstname=" + query + "&cachestring=" + cacheValue;
+            $.ajax({
+              method: "GET",
+              contentType: "application/json",
+              url:_url
+            })
+            .done(function(data) {
+              if(data && data.results && data.results.length > 0) {
+                $('#results').empty().removeClass("govuk-visually-hidden");
+                data.results.forEach(item => {
+                  $('#results').append(`<li class='result-item'><a class="govuk-link" href="#">${item.fullName}</a></li>`);
+                });
+                {% include 'Analytics/CustomEvent/Table' tableName:"Account",operationType:"Update" %}                                           
+              } else {
+                $('#results').addClass("govuk-visually-hidden");
+              }
+            })
+            .fail(function () {					  
+            });
+          }
+        });
+
+        $(document).on('click', '.result-item', function() {
+          const itemText = $(this).text();
+
+          // Check if the item already exists in the table
+          const rowExists = $(`#selectedItemsTable tbody tr:contains(${itemText})`).length > 0;
+          if (!rowExists) {
+            $('#selectedItemsTable tbody').append(`
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">${itemText}</th>
+                <td scope="row" class="govuk-table__cell"><a href="#" class="govuk-link" id="remove-item">Delete</a></td>
+              </tr>
+            `);
+          }
+
+          // Clear the search input and hide results
+          $('#searchInput').val('');
+          $('#results').addClass("govuk-visually-hidden");
+        });
+
+        $(document).on('click', '#remove-item', function() {
+          $(this).closest('tr').remove();
+        });
+      });
+    </script>
+     
+{% endblock %}
