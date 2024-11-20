@@ -39,10 +39,10 @@ jobs:
           }
         }
 
-    - name: Remove Tracking Code Content Snippet
+    - name: Remove enquiry-* Files and Folders
       shell: pwsh
       run: |
-        Get-ChildItem -Path "./dfe-central-portal/content-snippets/" -Filter "tracking-code*" -Recurse | ForEach-Object {
+        Get-ChildItem -Path "./dfe-central-portal/" -Filter "enquiry-*" -Recurse | ForEach-Object {
           if ($_.PSIsContainer) {
             Remove-Item -Recurse -Force $_.FullName
           } else {
@@ -50,10 +50,10 @@ jobs:
           }
         }
 
-    - name: Remove Tracking Code-* Files and Folders
+    - name: Remove Tracking Code Content Snippet
       shell: pwsh
       run: |
-        Get-ChildItem -Path "./dfe-central-portal/" -Filter "enquiry-*" -Recurse | ForEach-Object {
+        Get-ChildItem -Path "./dfe-central-portal/content-snippets/" -Filter "tracking-code*" -Recurse | ForEach-Object {
           if ($_.PSIsContainer) {
             Remove-Item -Recurse -Force $_.FullName
           } else {
