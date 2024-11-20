@@ -39,8 +39,8 @@ jobs:
       run: |
         # Define the files to remove
         $filesToRemove = @(
-          "./dfe-central-portal/.portal-config/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml",
-          "./dfe-central-portal/.portal-config/manifest.yml"
+          "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml",
+          "./dfe-central-portal/.portalconfig/manifest.yml"
         )
         
         # Loop through each file and remove it if it exists
