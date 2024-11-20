@@ -4,14 +4,14 @@
 - adx_description: Controls whether Content Access Level is enabled or disabled.
   adx_name: KnowledgeManagement/ContentAccessLevel/Enabled
   adx_sitesettingid: 34885f0b-636f-ef11-a670-002248a430ac
-  adx_value: False
+  adx_value: false
 - adx_name: CustomerSupport/CaseEntitlementEnabled
   adx_sitesettingid: 36885f0b-636f-ef11-a670-002248a430ac
   adx_value: false
 - adx_description: Set whether the footer web template is output cached.
   adx_name: Footer/OutputCache/Enabled
   adx_sitesettingid: 37885f0b-636f-ef11-a670-002248a430ac
-  adx_value: True
+  adx_value: true
 - adx_description: Used to group a set of entities under an entry in the record type facet view.
   adx_name: Search/RecordTypeFacetsEntities
   adx_sitesettingid: 38885f0b-636f-ef11-a670-002248a430ac
@@ -23,9 +23,8 @@
 - adx_name: Authentication/OpenAuth/Facebook/AppSecret
   adx_sitesettingid: 3a8a060e-636f-ef11-a670-7c1e522065e3
   importsequencenumber: 5
-- adx_description: >-
+- adx_description: |-
     A collection of search logical name filter options. Defining a value here will add dropdown filter options to site-wide search.
-
 
     This value should be in the form of name/value pairs, with name and value separated by a colon, and pairs separated by a semicolon. For example: "Forums:adx_communityforum,adx_communityforumthread,adx_communityforumpost;Issues:adx_issueforum,adx_issue,adx_issuecomment;".
   adx_name: search/filters
@@ -36,12 +35,12 @@
   importsequencenumber: 5
 - adx_name: Authentication/Registration/ExternalLoginEnabled
   adx_sitesettingid: 3c8a060e-636f-ef11-a670-7c1e522065e3
-  adx_value: true
   importsequencenumber: 2
+  adx_value: true
 - adx_name: Authentication/Registration/InvitationEnabled
   adx_sitesettingid: 3d8a060e-636f-ef11-a670-7c1e522065e3
-  adx_value: true
   importsequencenumber: 2
+  adx_value: true
 - adx_description: 'The amount of time the Authentication/LoginThrottling/MaxInvaildAttemptsFromIPAddress are to be within before the IP address has to wait Authentication/LoginThrottling/IpAddressTimeoutTimeSpan. Default: 00:03:00 (3 mins)'
   adx_name: Authentication/LoginThrottling/MaxAttemptsTimeLimitTimeSpan
   adx_sitesettingid: 408a060e-636f-ef11-a670-7c1e522065e3
@@ -71,21 +70,21 @@
   adx_sitesettingid: 594ea60c-636f-ef11-a670-002248a3bd1d
 - adx_name: Authentication/Registration/Enabled
   adx_sitesettingid: 5a4ea60c-636f-ef11-a670-002248a3bd1d
-  adx_value: true
   importsequencenumber: 5
+  adx_value: true
 - adx_description: External search engines that will be tracked as knowledge article referrers for a portal.
   adx_name: KnowledgeManagement/Analytics/ExternalSearchEngines
   adx_sitesettingid: 5b4ea60c-636f-ef11-a670-002248a3bd1d
   adx_value: bing|google|duckduckgo|msn|wolframalpha|yahoo|ask|altavista|live|aol|yandex|baidu
 - adx_name: Authentication/Registration/EmailConfirmationEnabled
   adx_sitesettingid: 5c4ea60c-636f-ef11-a670-002248a3bd1d
-  adx_value: true
   importsequencenumber: 2
-- adx_description: Sets whether or not the portal can redirect the user to the profile page after successful sign-in. By default, it is set to true.
-  adx_name: Authentication/Registration/ProfileRedirectEnabled
+  adx_value: true
+- adx_name: Authentication/Registration/ProfileRedirectEnabled
+  importsequencenumber: 2
+  adx_description: Sets whether or not the portal can redirect the user to the profile page after successful sign-in. By default, it is set to true.
+  adx_value: true
   adx_sitesettingid: 5d4ea60c-636f-ef11-a670-002248a3bd1d
-  adx_value: true
-  importsequencenumber: 2
 - adx_description: Determines if the different ways users access knowledge articles are tracked in a Dynamics 365 portal.
   adx_name: KnowledgeManagement/Analytics/CaptureKnowledgeArticleReferrer
   adx_sitesettingid: 5e4ea60c-636f-ef11-a670-002248a3bd1d
@@ -110,7 +109,7 @@
   adx_value: false
 - adx_name: Search/EnableGenerativeAI
   adx_sitesettingid: 87d81a31-636f-ef11-a670-002248a3bd1d
-  adx_value: True
+  adx_value: true
 - adx_name: Authentication/OpenAuth/Facebook/AppId
   adx_sitesettingid: abb8a609-636f-ef11-a670-7c1e5235396f
   importsequencenumber: 5
@@ -120,7 +119,7 @@
 - adx_description: A true or false value. If set to true, the local account will be marked as deprecated. The portal user will be required to migrate to a non-deprecated account.
   adx_name: Authentication/Registration/LocalLoginDeprecated
   adx_sitesettingid: adb8a609-636f-ef11-a670-7c1e5235396f
-  adx_value: False
+  adx_value: false
 - adx_description: Setting controls whether attachments will be displayed on Knowledge articles
   adx_name: KnowledgeManagement/DisplayNotes
   adx_sitesettingid: aeb8a609-636f-ef11-a670-7c1e5235396f
@@ -137,15 +136,15 @@
   adx_value: true
 - adx_name: Authentication/OpenAuth/LinkedIn/ConsumerKey
   adx_sitesettingid: b2b8a609-636f-ef11-a670-7c1e5235396f
-- adx_description: Enables or disables Azure AD as an external identity provider. By default, it is set to true.
-  adx_name: Authentication/Registration/AzureADLoginEnabled
-  adx_sitesettingid: b3b8a609-636f-ef11-a670-7c1e5235396f
-  adx_value: true
+- adx_name: Authentication/Registration/AzureADLoginEnabled
   importsequencenumber: 2
+  adx_description: Enables or disables Azure AD as an external identity provider. By default, it is set to true.
+  adx_value: true
+  adx_sitesettingid: b3b8a609-636f-ef11-a670-7c1e5235396f
 - adx_name: Authentication/Registration/OpenRegistrationEnabled
   adx_sitesettingid: b4b8a609-636f-ef11-a670-7c1e5235396f
-  adx_value: true
   importsequencenumber: 2
+  adx_value: true
 - adx_name: Search/Enabled
   adx_sitesettingid: b87fe50d-636f-ef11-a670-000d3adb261f
   adx_value: true
@@ -156,22 +155,22 @@
 - adx_name: Search/IndexQueryName
   adx_sitesettingid: ba7fe50d-636f-ef11-a670-000d3adb261f
   adx_value: Portal Search
-- adx_description: Set to "True" to force the user to submit the profile information before accessing the website contents.
-  adx_name: Profile/ForceSignUp
-  adx_sitesettingid: bb7fe50d-636f-ef11-a670-000d3adb261f
-  adx_value: False
+- adx_name: Profile/ForceSignUp
   importsequencenumber: 2
+  adx_description: Set to "True" to force the user to submit the profile information before accessing the website contents.
+  adx_value: false
+  adx_sitesettingid: bb7fe50d-636f-ef11-a670-000d3adb261f
 - adx_description: Set to "True" to capture view count data for Knowledge Management.
   adx_name: KnowledgeManagement/Article/CaptureViewCount
   adx_sitesettingid: bc7fe50d-636f-ef11-a670-000d3adb261f
-  adx_value: True
+  adx_value: true
 - adx_name: DisableValidationWebTemplate
   adx_sitesettingid: be7fe50d-636f-ef11-a670-000d3adb261f
   adx_value: false
 - adx_description: Site setting that determines if the language code is included in the portal URL.
   adx_name: MultiLanguage/DisplayLanguageCodeInURL
   adx_sitesettingid: bf7fe50d-636f-ef11-a670-000d3adb261f
-  adx_value: False
+  adx_value: false
 - adx_description: Site setting that controls the depth of the webpage hierarchy that�s cloned in a newly-added supported language. Web link sets and content snippets are cloned in the newly-added language when webpages are cloned.
   adx_name: MultiLanguage/MaximumDepthToClone
   adx_sitesettingid: c07fe50d-636f-ef11-a670-000d3adb261f
@@ -179,21 +178,21 @@
 - adx_description: Determines if product filtering is turned on (enabled) or off (disabled).
   adx_name: ProductFiltering/Enabled
   adx_sitesettingid: c27fe50d-636f-ef11-a670-000d3adb261f
-  adx_value: False
+  adx_value: false
 - adx_description: A date/time value in GMT format to represent the effective date of the current published terms and conditions. If the terms agreement is enabled, portal users that have not accepted the terms after this date will be asked to accept them the next time they sign in. If the date is not provided, and the terms agreement is enabled, the terms will be presented every time portal users sign in.
   adx_name: Authentication/Registration/TermsPublicationDate
   adx_sitesettingid: c47fe50d-636f-ef11-a670-000d3adb261f
 - adx_description: Set whether the header web template is output cached.
   adx_name: Header/OutputCache/Enabled
   adx_sitesettingid: c57fe50d-636f-ef11-a670-000d3adb261f
-  adx_value: True
+  adx_value: true
 - adx_name: Profile/ShowMarketingOptionsPanel
   adx_sitesettingid: f005990d-636f-ef11-a671-0022489df671
-  adx_value: True
+  adx_value: true
 - adx_description: Determines if users will see knowledge articles that aren�t associated with products when product filtering is turned on.
   adx_name: ProductFiltering/DisplayArticlesWithoutAssociatedProducts
   adx_sitesettingid: f105990d-636f-ef11-a671-0022489df671
-  adx_value: True
+  adx_value: true
 - adx_description: Denies use of the portal to minors without parental consent. By default, it is set to false.
   adx_name: Authentication/Registration/DenyMinorsWithoutParentalConsent
   adx_sitesettingid: f205990d-636f-ef11-a671-0022489df671
@@ -201,4 +200,5 @@
 - adx_description: Determines if faceted search is used for this portal.
   adx_name: Search/FacetedView
   adx_sitesettingid: f305990d-636f-ef11-a671-0022489df671
-  adx_value: True
+  adx_value: true
+
