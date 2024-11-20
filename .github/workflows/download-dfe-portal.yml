@@ -33,6 +33,25 @@ jobs:
         app-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
+
+    - name: Pre-Download Cleanup
+      shell: pwsh
+      run: |
+        # Define the files to remove
+        $filesToRemove = @(
+          "./dfe-central-portal/.portal-config/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml",
+          "./dfe-central-portal/.portal-config/manifest.yml"
+        )
+        
+        # Loop through each file and remove it if it exists
+        foreach ($file in $filesToRemove) {
+          if (Test-Path $file) {
+            Remove-Item -Path $file -Force
+            Write-Output "Removed $file"
+          } else {
+            Write-Output "$file does not exist, skipping"
+          }
+        }
         
     - name: Download DfE Portal
       uses: microsoft/powerplatform-actions/download-paportal@v1
