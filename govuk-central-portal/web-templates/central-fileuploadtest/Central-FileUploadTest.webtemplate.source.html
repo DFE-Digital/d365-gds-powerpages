@@ -1,0 +1,95 @@
+{% extends 'DfE/Layouts/2ColumnWideLeft' %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block main %}
+
+  {% assign fileDescription = "Category: Local consultation details" %}
+
+  {% assign contactId = params.contactid %}
+
+  {% assign contactRecord = entites['contacts'][contactId] %}
+
+
+  <p class="govuk-body">{{ contactRecord.firstname }}</p>
+
+  <p class="govuk-body">You will need to provide a summary of the consultation.</p>
+
+  <div class="govuk-inset-text" class="file-upload-hint">
+    <p class"govuk-body">Your file must be in PDF format and smaller than 1MB.</p>
+    <p class="govuk-body">If you cannot reduce the file size, email the documents and your unique reference number (URN) to <a href="mailto:images.schoolnurseries@education.gov.uk" class="govuk-link"rel="noreferrer noopener" target="_blank">images.schoolnurseries@education.gov.uk</a></p>
+  </div> 
+
+  <div class="govuk-form-group">
+    <label class="govuk-label govuk-label--s" for="file-upload" aria-describedby="file-upload-hint">
+      Upload file
+    </label>
+    <input class="govuk-file-upload" id="file-upload" name="file-upload" type="file" multiple>
+  </div>
+  
+  <div class="govuk-button-group">
+    <button id="upload-btn" class="govuk-button" data-module="govuk-button" data-prevent-double-click="true">Upload file</button>
+  </div>
+
+  <!--content end -->
+  
+  <div id="loader" class="loader govuk-visually-hidden">
+  </div>
+
+  <script>
+    $(() => {
+
+      let inputsToValidate = [{
+        identifier: "file-upload",
+        type: "file",
+        friendlyName: "your file",
+        required: true,
+        resolve: false,
+        maxFileSize: 1,
+        fileLimit: 2,
+        allowedFileTypes: ["pdf"]
+      }];
+
+      $('#upload-btn').on('click', function(e) {
+        DfEPortal.DisableButton("upload-btn");
+        DfEPortal.ShowLoadingSpinner("loader");
+        DfEPortal.ValidateData(inputsToValidate)
+        .then(() => {
+          DfEPortal.GetFileContent(inputsToValidate[0].identifier)
+          .then(fileDetailsArray => {
+            const dataObject = {
+              "subject": `${fileDetailsArray[0].fileName}.${fileDetailsArray[0].fileExtension}`,
+              "notetext": "{{ fileDescription }}",
+              "filename": fileDetailsArray[0].fileName,
+              "mimetype": fileDetailsArray[0].mimeType,
+              "documentbody": fileDetailsArray[0].fileContent,
+              "objecttypecode": "contact",
+              "objectid_contact@odata.bind": "/contacts({{user.id}})"
+            };
+
+            DfEPortal.WebApi.Create("annotations", dataObject)
+            .then(() => {
+              setTimeout(() => {
+                alert("Upload successful");
+              }, 2000);
+            })
+            .catch(error => {
+              DfEPortal.EnableButton("upload-btn");
+              DfEPortal.HideLoadingSpinner("loader");
+            }); 
+          })
+          .catch(error => {
+            DfEPortal.EnableButton("upload-btn");
+            DfEPortal.HideLoadingSpinner("loader");
+          }); 
+        })
+        .catch(error => {
+          DfEPortal.EnableButton("upload-btn");
+          DfEPortal.HideLoadingSpinner("loader");
+        });
+      });
+    });
+
+  </script>
+
+{% endblock %}

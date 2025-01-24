@@ -51,7 +51,7 @@ DfEPortal = {
       return Promise.reject(nullCheckObj);
     }
     
-    if (inputObj.type === 'number') {
+    if (inputObj.type === 'number' || inputObj.type === 'money') {
       return this.ValidateNumber(inputObj);
     }
     if (inputObj.type === 'whole-number') {
@@ -86,6 +86,8 @@ DfEPortal = {
   ValidateNumber: async function (inputObj) {
     const identifier = inputObj.identifier;
     const friendlyName = inputObj.friendlyName;
+    const type = inputObj.type;
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     if (inputObj.required) {
       // Validate if it's a number
@@ -95,7 +97,7 @@ DfEPortal = {
       }
 
       // Perform MinMaxValueChecks
-      const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, friendlyName);
+      const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, type, friendlyName, description);
       if (!minMaxValueCheckObj.value) {
         return Promise.reject(minMaxValueCheckObj);
       }
@@ -107,8 +109,9 @@ DfEPortal = {
 
   ValidateWholeNumber: async function (inputObj) {
     const identifier = inputObj.identifier;
+    const type = inputObj.type;
     const friendlyName = inputObj.friendlyName;
-    const description = inputObj.description != undefined ? inputObj.description : "";
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // Validate if it's a number
     const isNumberObj = DfEPortal.ValidationHelper.IsNumber(identifier, friendlyName);
@@ -129,10 +132,12 @@ DfEPortal = {
     }
 
     // Perform MinMaxValueChecks
-    const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, friendlyName, description);
+    const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, type, friendlyName, description);
     if (!minMaxValueCheckObj.value) {
       return Promise.reject(minMaxValueCheckObj);
     }
+
+    console.log("Completed MinMax Value check");
 
 
     // If it reaches this point, the whole number input is valid
@@ -141,9 +146,9 @@ DfEPortal = {
 
   ValidateDecimalNumber: async function (inputObj) {
     const identifier = inputObj.identifier;
+    const type = inputObj.type;
     const friendlyName = inputObj.friendlyName;
-    const description = inputObj.description != undefined ? inputObj.description : "";
-
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // Validate if it's a number
     const isNumberObj = DfEPortal.ValidationHelper.IsNumber(identifier, friendlyName);
@@ -158,7 +163,7 @@ DfEPortal = {
     }
 
     // Perform MinMaxValueChecks
-    const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, friendlyName, description);
+    const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, type, friendlyName, description);
     if (!minMaxValueCheckObj.value) {
       return Promise.reject(minMaxValueCheckObj);
     }
@@ -175,7 +180,7 @@ DfEPortal = {
     const targetEntity = inputObj.targetEntity;
     const targetEntitySearchField = inputObj.targetEntitySearchField;
     const targetEntityPrimaryKey = inputObj.targetEntityPrimaryKey;
-    const description = inputObj.description != undefined ? inputObj.description : "";
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // If it's a lookup text input, perform TextInputSearchValidation
     if (targetType === 'lookup') {
@@ -200,7 +205,7 @@ DfEPortal = {
   ValidateTextArea: async function (inputObj) {
     const identifier = inputObj.identifier;
     const friendlyName = inputObj.friendlyName;
-    const description = inputObj.description != undefined ? inputObj.description : "";
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // Validate character count container
     const characterCountCheckObj = DfEPortal.ValidationHelper.CharacterCountContainerCheck(identifier, friendlyName);
@@ -227,7 +232,7 @@ DfEPortal = {
   ValidateEmail: async function (inputObj) {
     const identifier = inputObj.identifier;
     const friendlyName = inputObj.friendlyName;
-    const description = inputObj.description != undefined ? inputObj.description : "";
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // Validate email format
     const isEmailObj = DfEPortal.ValidationHelper.IsEmail(identifier);
@@ -289,11 +294,10 @@ DfEPortal = {
     const friendlyName = inputObj.friendlyName;
     const maxFileSize = inputObj.maxFileSize;
     const maxLimit = inputObj.fileLimit;
-    const flowId = inputObj.virusCheckFlowId;
-    const allowedExtensions = inputObj.allowedExtensions;
+    const allowedFileTypes = inputObj.allowedFileTypes;
 
     // Check valid file extensions
-    const fileExtensionObj = DfEPortal.ValidationHelper.ValidFileExtensionCheck(identifier, allowedExtensions);
+    const fileExtensionObj = DfEPortal.ValidationHelper.ValidFileExtensionCheck(identifier, allowedFileTypes);
     if (!fileExtensionObj.value) {
       return Promise.reject(fileExtensionObj);
     }
@@ -311,7 +315,7 @@ DfEPortal = {
     }
 
     // Perform virus check
-    const virusScanObj = await DfEPortal.ValidationHelper.VirusCheck(identifier, flowId);
+    const virusScanObj = await DfEPortal.ValidationHelper.VirusCheck(identifier);
     if (!virusScanObj.value) {
       return Promise.reject(virusScanObj);
     }
@@ -324,17 +328,17 @@ DfEPortal = {
     return new Promise((resolve, reject) => {
       const $fileInput = $(`#${input}`);
       const files = $fileInput[0].files;
-        
+
       if (!files.length) {
-        const errorObj = {
-          identifier: input,
-          errorMessage: "There has been an unexpected error processing your files. No files have been found. Please contact the DfE."
-        };
-        DfEPortal.Errors.ShowInputError(errorObj.identifier, "file", errorObj.errorMessage);
-        DfEPortal.Errors.ShowErrorSummary();
-        DfEPortal.Errors.AddErrorSummaryDetail(errorObj.identifier, errorObj.errorMessage);
-        reject();
-        return;
+          const errorObj = {
+              identifier: input,
+              errorMessage: "There has been an unexpected error processing your files. No files have been found. Please contact the DfE."
+          };
+          DfEPortal.Errors.ShowInputError(errorObj.identifier, "file", errorObj.errorMessage);
+          DfEPortal.Errors.ShowErrorSummary();
+          DfEPortal.Errors.AddErrorSummaryDetail(errorObj.identifier, errorObj.errorMessage);
+          reject();
+          return;
       }
 
       const fileDetailsPromises = Array.from(files).map(file => {
@@ -345,17 +349,16 @@ DfEPortal = {
           const filenameExtension = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2);
 
           const reader = new FileReader();
-          reader.readAsDataURL(file);
+          reader.readAsArrayBuffer(file); // Read as binary
 
           reader.onload = function(e) {
-            const documentbodyContents = e.target.result;
-            const base64Content = documentbodyContents.substring(documentbodyContents.indexOf(',') + 1);
+            const binaryContent = new Uint8Array(e.target.result); // Convert to Uint8Array
             fileResolve({
-                fileName: fileName,
-                mimeType: mimeType,
-                fileSize: fileSize,
-                fileExtension: filenameExtension,
-                fileContent: base64Content
+              fileName: fileName,
+              mimeType: mimeType,
+              fileSize: fileSize,
+              fileExtension: filenameExtension,
+              fileContent: binaryContent // Binary data
             });
           };
 
@@ -363,18 +366,18 @@ DfEPortal = {
             const errorObj = {
               identifier: input,
               errorMessage: `There has been an unexpected error reading your file "${fileName}". Please try again.`
-              };
-              fileReject(errorObj);
+            };
+            fileReject(errorObj);
           };
         });
       });
 
       Promise.all(fileDetailsPromises)
       .then(fileDetails => {
-          resolve(fileDetails);
+        resolve(fileDetails);
       })
       .catch(error => {
-          reject(error);
+        reject(error);
       });
     });
   },
@@ -410,9 +413,7 @@ DfEPortal.ValidationHelper = {
   },
 
   IsIdentifierValid: function (input, type) {
-    const selector = type === this.InputTypes.Radio || type === this.InputTypes.Checkbox
-      ? `input[name='${input}']`
-      : `#${input}`;
+    const selector = type === this.InputTypes.Radio || type === this.InputTypes.Checkbox ? `input[name='${input}']` : `#${input}`;
 
     const elements = $(selector);
     const exists = elements.length > 0;
@@ -905,16 +906,16 @@ DfEPortal.ValidationHelper = {
     }
   },
 
-  MinMaxValueChecks: function (input, friendlyName, description) {
+  MinMaxValueChecks: function (input, type, friendlyName, description) {
     const maxValue = $(`#${input}`).attr('maxvalue');
     const minValue = $(`#${input}`).attr('minvalue');
     if (minValue || maxValue) {
       if (maxValue && !minValue) {
-        return this.InputMaxValueCheck(input, friendlyName, description, maxValue);
+        return this.InputMaxValueCheck(input, type, friendlyName, description, maxValue);
       } else if (!maxValue && minValue) {
-        return this.InputMinValueCheck(input, friendlyName, description, minValue);
+        return this.InputMinValueCheck(input, type, friendlyName, description, minValue);
       } else if (maxValue && minValue) {
-        return this.InputBetweenValueCheck(input, friendlyName, description, minValue, maxValue);
+        return this.InputBetweenValueCheck(input, type, friendlyName, description, minValue, maxValue);
       }
     } else {
       return {
@@ -988,16 +989,24 @@ DfEPortal.ValidationHelper = {
     }
   },
 
-  InputMaxValueCheck: function (input, friendlyName, description, maxValue) {
+  InputMaxValueCheck: function (input, type, friendlyName, description, maxValue) {
     const inputValue = parseFloat($(`#${input}`).val());
     const maxValueFormatted = parseInt(maxValue);
 
     if (!isNaN(inputValue)) {
-      return {
-        identifier: input,
-        value: inputValue > maxValueFormatted ? false : true,
-        errorMessage: inputValue > maxValueFormatted ? `${this.ToProperCase(friendlyName)} must be ${maxValueFormatted} or fewer ${description}` : null
-      };
+      if (type == "money") {
+        return {
+          identifier: input,
+          value: inputValue > maxValueFormatted ? false : true,
+          errorMessage: inputValue > maxValueFormatted ? `${this.ToProperCase(friendlyName)} must be ${this.FormatCurrency(maxValueFormatted)} or less ${description}` : null
+        };
+      } else {
+        return {
+          identifier: input,
+          value: inputValue > maxValueFormatted ? false : true,
+          errorMessage: inputValue > maxValueFormatted ? `${this.ToProperCase(friendlyName)} must be ${maxValueFormatted} or fewer ${description}` : null
+        };
+      }
     } else {
       return {
         identifier: input,
@@ -1007,44 +1016,62 @@ DfEPortal.ValidationHelper = {
     }
   },
 
-  InputMinValueCheck: function (input, friendlyName, description, minValue) {
+  InputMinValueCheck: function (input, type, friendlyName, description, minValue) {
     const inputValue = parseFloat($(`#${input}`).val());
     const minValueFormatted = parseInt(minValue);
 
     if (!isNaN(inputValue)) {
-      if (inputValue < minValueFormatted) {
-        return { identifier: input, value: false, errorMessage: `${this.ToProperCase(friendlyName)} must be ${minValueFormatted} or more ${description}` };
+      if (type == "money") {
+        return { 
+          identifier: input, 
+          value: inputValue < minValueFormatted ? false : true, 
+          errorMessage: inputValue < minValueFormatted ? `${this.ToProperCase(friendlyName)} must be ${this.FormatCurrency(minValueFormatted)} or less ${description}` : null
+        };
       } else {
-        return { identifier: input, value: true, errorMessage: null };
+        return { 
+          identifier: input, 
+          value: inputValue < minValueFormatted ? false : true, 
+          errorMessage: inputValue < minValueFormatted ? `${this.ToProperCase(friendlyName)} must be ${minValueFormatted} or more ${description}` : null
+        };
       }
     } else {
       return { identifier: input, value: true, errorMessage: null };
     }
   },
 
-  InputBetweenValueCheck: function (input, friendlyName, description, minValue, maxValue) {
+  InputBetweenValueCheck: function (input, type, friendlyName, description, minValue, maxValue) {
     const inputValue = parseFloat($(`#${input}`).val());
     const minValueFormatted = parseInt(minValue);
     const maxValueFormatted = parseInt(maxValue);
 
-    if (!isNaN(inputValue)) {
-      if (minValueFormatted == maxValueFormatted) {
+    if (minValueFormatted == maxValueFormatted) {
+      if (type == "money") {
+        return {
+          identifier: input,
+          value: inputValue == minValueFormatted ? true : false,
+          errorMessage: inputValue == minValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be ${this.FormatCurrency(minValueFormatted)} ${description}`
+        }
+      } else {
         return {
           identifier: input,
           value: inputValue == minValueFormatted ? true : false,
           errorMessage: inputValue == minValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be ${minValueFormatted} ${description}`
         }
       }
-      return {
-        identifier: input,
-        value: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? true : false,
-        errorMessage: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be between ${minValueFormatted} and ${maxValueFormatted} ${description}`
-      }
     } else {
-      return {
-        identifier: input,
-        value: true,
-        errorMessage: null
+      if (type == "money") {
+        return {
+          identifier: input,
+          value: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? true : false,
+          errorMessage: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be between ${this.FormatCurrency(minValueFormatted)} and ${this.FormatCurrency(maxValueFormatted)} ${description}`
+        } 
+      } else {
+        console.log(description);
+        return {
+          identifier: input,
+          value: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? true : false,
+          errorMessage: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be between ${minValueFormatted} and ${maxValueFormatted} ${description}`
+        }
       }
     }
   },
@@ -1146,52 +1173,83 @@ DfEPortal.ValidationHelper = {
     };
   },
 
-  VirusCheck: async function(identifier, flowId) {
+  VirusCheck: async function(identifier) {
     try {
       const filesDataArray = await DfEPortal.GetFileContent(identifier);
-      
-      const virusCheckPromises = filesDataArray.map(fileData => {
-        let dataObj = {}
-        dataObj["fileContent"] = {
-          "file": {
-            "name": fileData.fileName,
-            "contentBytes": fileData.fileContent,
-          }     
-        };
+      const virusScanApiKey = "99281b9e-2974-4be2-be97-483390e6d167";
 
-        const request = {};
-        request.eventData = JSON.stringify(dataObj);
-        return DfEPortal.WebApi.CallCloudFlow(flowId, request);
+      const virusCheckPromises = filesDataArray.map(fileData => {
+        // Prepare FormData for binary upload
+        const formData = new FormData();
+        formData.append("file", new Blob([fileData.fileContent], { type: fileData.mimeType }), fileData.fileName);
+
+        // Return the AJAX call as a promise
+        return new Promise((resolve, reject) => {
+          $.ajax({
+            url: "https://api.cloudmersive.com/virus/scan/file",
+            method: "POST",
+            headers: {
+              "Apikey": virusScanApiKey
+            },
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function(response) {
+              resolve({ fileName: fileData.fileName, response });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              reject({
+                  fileName: fileData.fileName,
+                  error: `Error scanning file: ${textStatus} - ${errorThrown}`
+              });
+            }
+          });
+        });
       });
 
       const results = await Promise.all(virusCheckPromises);
 
+      console.log(results);
+
+      // Process results for failed files
       const failedFiles = results
-      .filter(result => !result.isFileClean || !result.scanSuccess)
-      .map((result, index) => filesDataArray[index].fileName);
+        .filter(result => !result.response.CleanResult)
+        .map(result => result.fileName);
 
       if (failedFiles.length > 0) {
-        const errorMessage = failedFiles.map(fileName => `The file "${fileName}" contains a virus.`).join('\n');
+        const errorMessage = failedFiles
+          .map(fileName => `There has been an error uploading file '${fileName}'`)
+          .join('\n');
         return {
           identifier: identifier,
           value: false,
-          errorMessage: errorMessage
-        }
+          errorMessage: errorMessage,
+        };
       }
 
+      // All files passed
       return {
         identifier: identifier,
         value: true,
-        errorMessage: null
+        errorMessage: null,
       };
+
+
     } catch (error) {
-      console.error(error);
+      console.error("Unexpected error:", error);
       return {
         identifier: identifier,
         value: false,
-        errorMessage: "An error occurred. Please try again."
+        errorMessage: "An error occurred. Please try again.",
       };
     }
+  },
+
+  FormatCurrency : function(value) {
+    return new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP'
+    }).format(value);
   },
 
   ToProperCase: function (text) {
@@ -1254,7 +1312,7 @@ DfEPortal.Errors = {
         let describedBy = formGroup.find('textarea').attr("aria-describedby");
         describedBy = describedBy ? `${describedBy} ${errorContainerId}` : errorContainerId;
         formGroup.find('textarea').attr("aria-describedby", describedBy);
-      } else if (type === "text" || type === "tel" || type === "email" || type === "number" || type === "whole-number" || type === "decimal-number" || type === "file") {
+      } else if (type === "text" || type === "tel" || type === "email" || type === "number" || type === "money" || type === "whole-number" || type === "decimal-number" || type === "file") {
         if ($(`#${input}`).attr("type") == "search") {
           formGroup.find('.dfe-form-search__item-wrapper').before(errorContainer);
         } else {
@@ -1279,7 +1337,7 @@ DfEPortal.Errors = {
       $(`#${input} input`).addClass('govuk-input--error');
     } else if (type === "text-area") {
       $(`#${input}`).addClass('govuk-textarea--error');
-    } else if (type === "text" || type === "tel" || type === "email" || type === "number" || type === "whole-number" || type === "decimal-number" || type === "file") {
+    } else if (type === "text" || type === "tel" || type === "email" || type === "number" || type === "money" || type === "whole-number" || type === "decimal-number" || type === "file") {
       $(`#${input}`).addClass('govuk-input--error');
     }
   },
@@ -1332,7 +1390,7 @@ DfEPortal.Errors = {
           textArea.attr("aria-describedby", describedBy.trim());
         }
       }
-    } else if (type === "text" || type === "tel" || type === "email" || type === "number" || type === "whole-number" || type === "decimal-number") {
+    } else if (type === "text" || type === "tel" || type === "email" || type === "number" || type === "money" || type === "whole-number" || type === "decimal-number" || type === "file") {
       const inputComponent = formGroup.find('input');
       let describedBy = inputComponent.attr("aria-describedby");
       if (describedBy !== undefined && describedBy.includes(errorContainerId)) {
@@ -1351,7 +1409,7 @@ DfEPortal.Errors = {
       $(`#${input} input`).removeClass('govuk-input--error');
     } else if (type === "text-area") {
       $(`#${input}`).removeClass('govuk-textarea--error');
-    } else if (type === "text" || type === "tel" || type === "email" || type === "number" || type === "whole-number" || type === "decimal-number") {
+    } else if (type === "text" || type === "tel" || type === "email" || type === "number" || type === "money" || type === "whole-number" || type === "decimal-number" || type === "file") {
       $(`#${input}`).removeClass('govuk-input--error');
     }
   },
@@ -1624,9 +1682,32 @@ DfEPortal.WebApi = {
             case "text":
               const checkedId = $(`input[name='${objItem.identifier}']:checked`).attr('id');
               $.extend(data, {
-                [objItem.identifier]: $(`label[for='${checkedId}']`).text().trim(),
+                [objItem.identifier]: $(`label[for='${checkedId}']`).text().trim()
               });
               break;
+
+            case "split-field":
+              const fieldId = $(`input[name='${objItem.identifier}']:checked`).attr('id');
+              if (objItem.targetFieldType !== null) {
+                if(objItem.targetFieldType == "text") {
+                  $.extend(data, {
+                    [fieldId]: $(`input[name='${objItem.identifier}']:checked`).val()
+                  });
+                  break;
+                }
+                else if (objItem.targetFieldType == "number") {
+                  $.extend(data, {
+                    [fieldId]: parseInt($(`input[name='${objItem.identifier}']:checked`).val())
+                  });
+                  break;
+                }
+                else {
+                  handleInternalError(`'${objItem.targetFieldType}' is not a valid target field type for 'split-field'`);
+                }
+              }
+              else {
+                handleInternalError(`'fieldType' is missing from the data object`);
+              }
 
             default:
               handleInternalError(`'${objItem.targetType}' is not a valid targetType for type '${objItem.type}'`);
@@ -1762,7 +1843,7 @@ DfEPortal.WebApi = {
           });
         } else if (objItem.type === "whole-number") {
           handleNumber(objItem);
-        } else if (objItem.type === "decimal-number" || objItem.type === "number") {
+        } else if (objItem.type === "decimal-number" || objItem.type === "number" || objItem.type === "money") {
           handleDecimalNumber(objItem);
         } else if (objItem.type === "date") {
           handleDate(objItem);
@@ -1905,25 +1986,23 @@ DfEPortal.WebApi = {
     });
   },
 
-  CallCloudFlow: function(flowApiId, dataObj) {
+  CallCloudFlow: function(flowApiId, data) {
     return new Promise((resolve, reject) => {
       shell.ajaxSafePost({
         type: "POST",
         url: `/_api/cloudflow/v1.0/trigger/${flowApiId}`,
-        contentType: "application/json",
-        data: JSON.stringify(dataObj),
+        contentType: 'application/json',
+        data: data,
         success: function(res, status, xhr) {
           try {
             const result = JSON.parse(res);
-            const isFileClean = result["cleanfile"];
-            const scanSuccess = result["scansuccess"];
-            resolve({ isFileClean, scanSuccess });
+            resolve(result);
           } catch (error) {
             reject({
               status: xhr.status,
               statusText: xhr.statusText,
               responseText: xhr.responseText,
-              error: 'Error parsing the response'
+              error: "Error parsing the response",
             });
           }
         },
@@ -1932,7 +2011,7 @@ DfEPortal.WebApi = {
             status: xhr.status,
             statusText: xhr.statusText,
             responseText: xhr.responseText,
-            error: error
+            error: error,
           };
           reject(errorObj);
         },
