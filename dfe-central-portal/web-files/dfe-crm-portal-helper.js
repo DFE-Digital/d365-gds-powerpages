@@ -109,8 +109,9 @@ DfEPortal = {
 
   ValidateWholeNumber: async function (inputObj) {
     const identifier = inputObj.identifier;
+    const type = inputObj.type;
     const friendlyName = inputObj.friendlyName;
-    const description = inputObj.description != undefined ? inputObj.description : "";
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // Validate if it's a number
     const isNumberObj = DfEPortal.ValidationHelper.IsNumber(identifier, friendlyName);
@@ -131,10 +132,12 @@ DfEPortal = {
     }
 
     // Perform MinMaxValueChecks
-    const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, friendlyName, description);
+    const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, type, friendlyName, description);
     if (!minMaxValueCheckObj.value) {
       return Promise.reject(minMaxValueCheckObj);
     }
+
+    console.log("Completed MinMax Value check");
 
 
     // If it reaches this point, the whole number input is valid
@@ -143,9 +146,9 @@ DfEPortal = {
 
   ValidateDecimalNumber: async function (inputObj) {
     const identifier = inputObj.identifier;
+    const type = inputObj.type;
     const friendlyName = inputObj.friendlyName;
-    const description = inputObj.description != undefined ? inputObj.description : "";
-
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // Validate if it's a number
     const isNumberObj = DfEPortal.ValidationHelper.IsNumber(identifier, friendlyName);
@@ -160,7 +163,7 @@ DfEPortal = {
     }
 
     // Perform MinMaxValueChecks
-    const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, friendlyName, description);
+    const minMaxValueCheckObj = DfEPortal.ValidationHelper.MinMaxValueChecks(identifier, type, friendlyName, description);
     if (!minMaxValueCheckObj.value) {
       return Promise.reject(minMaxValueCheckObj);
     }
@@ -177,7 +180,7 @@ DfEPortal = {
     const targetEntity = inputObj.targetEntity;
     const targetEntitySearchField = inputObj.targetEntitySearchField;
     const targetEntityPrimaryKey = inputObj.targetEntityPrimaryKey;
-    const description = inputObj.description != undefined ? inputObj.description : "";
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // If it's a lookup text input, perform TextInputSearchValidation
     if (targetType === 'lookup') {
@@ -202,7 +205,7 @@ DfEPortal = {
   ValidateTextArea: async function (inputObj) {
     const identifier = inputObj.identifier;
     const friendlyName = inputObj.friendlyName;
-    const description = inputObj.description != undefined ? inputObj.description : "";
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // Validate character count container
     const characterCountCheckObj = DfEPortal.ValidationHelper.CharacterCountContainerCheck(identifier, friendlyName);
@@ -229,7 +232,7 @@ DfEPortal = {
   ValidateEmail: async function (inputObj) {
     const identifier = inputObj.identifier;
     const friendlyName = inputObj.friendlyName;
-    const description = inputObj.description != undefined ? inputObj.description : "";
+    const description = inputObj.description !== null && inputObj.description !== undefined ? inputObj.description : "";
 
     // Validate email format
     const isEmailObj = DfEPortal.ValidationHelper.IsEmail(identifier);
@@ -1041,41 +1044,34 @@ DfEPortal.ValidationHelper = {
     const minValueFormatted = parseInt(minValue);
     const maxValueFormatted = parseInt(maxValue);
 
-    if (!isNaN(inputValue)) {
-      if (minValueFormatted == maxValueFormatted) {
-        if (type = "money") {
-          return {
-            identifier: input,
-            value: inputValue == minValueFormatted ? true : false,
-            errorMessage: inputValue == minValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be ${this.FormatCurrency(minValueFormatted)} ${description}`
-          }
-        } else {
+    if (minValueFormatted == maxValueFormatted) {
+      if (type == "money") {
+        return {
+          identifier: input,
+          value: inputValue == minValueFormatted ? true : false,
+          errorMessage: inputValue == minValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be ${this.FormatCurrency(minValueFormatted)} ${description}`
+        }
+      } else {
         return {
           identifier: input,
           value: inputValue == minValueFormatted ? true : false,
           errorMessage: inputValue == minValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be ${minValueFormatted} ${description}`
         }
       }
-      }
-
-      if (type = "money") {
+    } else {
+      if (type == "money") {
         return {
           identifier: input,
           value: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? true : false,
           errorMessage: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be between ${this.FormatCurrency(minValueFormatted)} and ${this.FormatCurrency(maxValueFormatted)} ${description}`
         } 
       } else {
-      return {
-        identifier: input,
-        value: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? true : false,
-        errorMessage: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be between ${minValueFormatted} and ${maxValueFormatted} ${description}`
+        console.log(description);
+        return {
+          identifier: input,
+          value: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? true : false,
+          errorMessage: inputValue >= minValueFormatted && inputValue <= maxValueFormatted ? null : `${this.ToProperCase(friendlyName)} must be between ${minValueFormatted} and ${maxValueFormatted} ${description}`
         }
-      }
-    } else {
-      return {
-        identifier: input,
-        value: true,
-        errorMessage: null
       }
     }
   },
@@ -1248,7 +1244,6 @@ DfEPortal.ValidationHelper = {
       };
     }
   },
-
 
   FormatCurrency : function(value) {
     return new Intl.NumberFormat('en-GB', {
@@ -1687,9 +1682,32 @@ DfEPortal.WebApi = {
             case "text":
               const checkedId = $(`input[name='${objItem.identifier}']:checked`).attr('id');
               $.extend(data, {
-                [objItem.identifier]: $(`label[for='${checkedId}']`).text().trim(),
+                [objItem.identifier]: $(`label[for='${checkedId}']`).text().trim()
               });
               break;
+
+            case "split-field":
+              const fieldId = $(`input[name='${objItem.identifier}']:checked`).attr('id');
+              if (objItem.targetFieldType !== null) {
+                if(objItem.targetFieldType == "text") {
+                  $.extend(data, {
+                    [fieldId]: $(`input[name='${objItem.identifier}']:checked`).val()
+                  });
+                  break;
+                }
+                else if (objItem.targetFieldType == "number") {
+                  $.extend(data, {
+                    [fieldId]: parseInt($(`input[name='${objItem.identifier}']:checked`).val())
+                  });
+                  break;
+                }
+                else {
+                  handleInternalError(`'${objItem.targetFieldType}' is not a valid target field type for 'split-field'`);
+                }
+              }
+              else {
+                handleInternalError(`'fieldType' is missing from the data object`);
+              }
 
             default:
               handleInternalError(`'${objItem.targetType}' is not a valid targetType for type '${objItem.type}'`);
@@ -2000,7 +2018,6 @@ DfEPortal.WebApi = {
       });
     });
   },
-
 
   UploadFile: function (inputName, entityName, entityId) {
     try {
