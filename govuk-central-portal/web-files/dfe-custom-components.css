@@ -175,122 +175,6 @@
 }
 /** END CUSTOM DFE TIMELINE COMPONENT **/
 
-/** CUSTOM DFE CARD COMPONENT **/
-.dfe-cards__heading {
-    margin: 0 0 30px 0
-}
-
-.dfe-cards__list {
-    list-style: none;
-    padding: 0;
-    margin: 0 -15px;
-    display: grid;
-    grid-auto-flow: row;
-    grid-auto-rows: 1fr;
-    grid-template-columns: 1fr
-}
-
-@media (min-width: 40.0625em) {
-    .dfe-cards__list {
-        grid-template-columns:1fr 1fr
-    }
-}
-
-@media (min-width: 48.0625em) {
-    .dfe-cards__list {
-        grid-template-columns:1fr 1fr 1fr;
-        width: 50%
-    }
-
-    @supports (display: grid) {
-        .dfe-cards__list {
-            width:initial
-        }
-    }
-}
-
-@media (min-width: 48.0625em) {
-    .dfe-cards__list--two-column-desktop {
-        grid-template-columns:1fr 1fr
-    }
-}
-
-@media (min-width: 48.0625em) {
-  .dfe-cards__list--one-column-desktop {
-      grid-template-columns:1fr
-  }
-}
-
-.dfe-cards__list-item {
-    border-top: 1px solid #b1b4b6;
-    margin: 0 15px;
-    padding: 5px 0 20px 0
-}
-
-.dfe-cards__list-item-wrapper {
-    padding: 10px 30px 10px 0;
-    position: relative
-}
-
-.dfe-cards__sub-heading {
-    margin-bottom: 10px
-}
-
-.dfe-cards__link::after {
-    bottom: 0;
-    content: "";
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0
-}
-
-.dfe-cards__link::before {
-    border-right: 4px solid #1d70b8;
-    border-top: 4px solid #1d70b8;
-    content: "";
-    height: 12px;
-    position: absolute;
-    right: 5px;
-    top: 15px;
-    -webkit-transform: translateY(0) rotate(45deg) scale(1);
-    -ms-transform: translateY(0) rotate(45deg) scale(1);
-    transform: translateY(0) rotate(45deg) scale(1);
-    width: 12px
-}
-
-.dfe-cards__link:hover::before {
-    border-color: #003078
-}
-
-.dfe-cards__link:focus::before {
-    border-color: #0b0c0c
-}
-
-.dfe-cards__description {
-    margin: 0 -30px 0 0
-}
-
-@media print {
-    .dfe-cards__list {
-        display: block
-    }
-
-    .dfe-cards__list-item {
-        padding-bottom: 0
-    }
-
-    .dfe-cards__sub-heading {
-        margin-top: 20px;
-        margin-bottom: 5px
-    }
-
-    .dfe-cards__link::before {
-        display: none
-    }
-}
-/** END CUSTOM DFE CARD COMPONENT **/
-
 /** CUSTOM DFE FULL PAGE CHEVRON CARD COMPONENT **/
 .dfe-homepage-services__list {
   list-style: none;
@@ -1208,6 +1092,101 @@
 .dfe-attachment__abbr {
   text-decoration: none;
   cursor: help
+}
+
+.dfe-grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 40.0625em) {
+  .dfe-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+  }
+}
+
+.dfe-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #b1b4b6;
+  max-width: 400px;
+}
+
+@media (min-width: 40.0625em) {
+  .dfe-card {
+    max-width: 100%;
+  }
+}
+
+.dfe-card>picture,
+.dfe-card>picture>img {
+  max-width: 100%;
+}
+
+.dfe-card-container {
+  padding: dfe-spacing(4);
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+
+  // Last element push to the bottom
+  :last-child {
+    margin-top: auto;
+  }
+
+  // except when it's just a linkable header and p - don't margin:auto.
+  h2+p:last-child,
+  h3+p:last-child {
+    margin-top: 0px;
+  }
+}
+
+.dfe-card:hover,
+.dfe-card:focus-within {
+  background-color: #003078;
+}
+
+.dfe-card:hover a,
+.dfe-card:focus-within a,
+.dfe-card:hover p,
+.dfe-card:focus-within p,
+.dfe-card:hover .govuk-heading-m,
+.dfe-card:focus-within .govuk-heading-m {
+  color: #ffffff;
+}
+
+.dfe-card:focus-within {
+  outline: 3px solid #ffdd00;
+}
+
+.dfe-card-container .dfe-card-link--retake:focus,
+.dfe-card-container .dfe-card-link--header:focus {
+  color: #0b0c0c;
+}
+
+.dfe-card-link--retake {
+  position: relative;
+  z-index: 2;
+}
+
+.dfe-card-link--header {
+  text-decoration: none;
+  color: #1d70b8;
+}
+
+.dfe-card-link--header:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 }
 
 /** END DOCUMENT DOWNLOAD COMPONENT **/
