@@ -39,8 +39,8 @@ jobs:
       run: |
         # Define the files to remove
         $filesToRemove = @(
-          "./govuk-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml",
-          "./govuk-central-portal/.portalconfig/manifest.yml"
+          "./govuk-power-pages-core/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml",
+          "./govuk-power-pages-core/.portalconfig/manifest.yml"
         )
         
         # Loop through each file and remove it if it exists
@@ -76,7 +76,7 @@ jobs:
       run: |
         # Stage and commit all changes
         git add .
-        git commit -m "Added GOVUK portal download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        git commit -m "Added GOVUK Power Pages Core download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD
