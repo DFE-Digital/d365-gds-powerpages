@@ -1,16 +1,16 @@
-name: Create DfE Portal
+name: Create DfE Power Pages Website
 
 on:
   workflow_dispatch:
     inputs:
       client-id:
-        description: 'Azure AD Client ID for target environment'
+        description: 'Client ID'
         required: true
       client-secret:
-        description: 'Azure AD Client Secret for target environment'
+        description: 'Client Secret'
         required: true
       environment-url:
-        description: 'Environment URL for the target environment'
+        description: 'Target Environment URL'
         required: true
 
 jobs:
@@ -35,11 +35,11 @@ jobs:
         client-secret: ${{ inputs.client-secret }}
         tenant-id: ${{ secrets.TENANT_ID }}
 
-    - name: Upload DfE Portal to Target Environment
+    - name: Upload DfE Site to Target Environment
       uses: microsoft/powerplatform-actions/upload-paportal@v1
       with:
         environment-url: ${{ inputs.environment-url }}
         app-id: ${{ inputs.client-id }}
         client-secret: ${{ inputs.client-secret }}
         tenant-id: ${{ secrets.TENANT_ID }}
-        upload-path: ./dfe-central-portal  # Path to the downloaded portal files
+        upload-path: "./${{ secrets.DFE_WEBSITE_FOLDER }}"
