@@ -1,4 +1,4 @@
-name: Cleanup DfE Portal Files
+name: Cleanup DfE Files
 
 on:
   workflow_run:
