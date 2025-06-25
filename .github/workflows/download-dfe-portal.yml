@@ -1,4 +1,4 @@
-name: Download DfE Portal
+name: Download DfE Core
 
 on:
   workflow_dispatch:
@@ -29,7 +29,7 @@ jobs:
     - name: Authentication Check
       uses: microsoft/powerplatform-actions/who-am-i@v1
       with:
-        environment-url: ${{ secrets.POWER_PLATFORM_URL }}
+        environment-url: "https://${{ secrets.POWER_PLATFORM_URL }}"
         app-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
@@ -37,10 +37,13 @@ jobs:
     - name: Pre-Download Cleanup
       shell: pwsh
       run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        $url = "${{ secrets.POWER_PLATFORM_URL }}"
+        
         # Define the files to remove
         $filesToRemove = @(
-          "./dfe-central-portal/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml",
-          "./dfe-central-portal/.portalconfig/manifest.yml"
+          "./$folder/.portalconfig/$url-manifest.yml",
+          "./$folder/.portalconfig/manifest.yml"
         )
         
         # Loop through each file and remove it if it exists
@@ -56,7 +59,7 @@ jobs:
     - name: Download DfE Portal
       uses: microsoft/powerplatform-actions/download-paportal@v1
       with:
-        environment-url: ${{ secrets.POWER_PLATFORM_URL }}
+        environment-url: "https://${{ secrets.POWER_PLATFORM_URL }}"
         app-id: ${{ secrets.CLIENT_ID }}
         client-secret: ${{ secrets.CLIENT_SECRET }}
         tenant-id: ${{ secrets.TENANT_ID }}
@@ -76,17 +79,7 @@ jobs:
       run: |
         # Stage and commit all changes
         git add .
-        git commit -m "Added DfE portal download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        git commit -m "Added new DfE Power Pages Core download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
         
         # Push changes to the branch from which the workflow was triggered
         git push origin HEAD
-
-    - name: Force Push to Main
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        # Ensure the current branch is up to date
-        git fetch origin
-        
-        # Force push the current branch to main, overwriting any conflicts
-        git push origin HEAD:main --force
