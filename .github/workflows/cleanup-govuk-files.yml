@@ -2,7 +2,7 @@ name: Cleanup GOVUK Files
 
 on:
   workflow_run:
-    workflows: ["Download GOCUK Website"]
+    workflows: ["Download GOVUK Website"]
     types:
       - completed
 
