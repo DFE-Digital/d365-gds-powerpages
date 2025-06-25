@@ -1,4 +1,4 @@
-name: Download DfE Core
+name: Download DfE Website
 
 on:
   workflow_dispatch:
