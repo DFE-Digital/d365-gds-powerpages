@@ -1,4 +1,4 @@
-name: Download GOVUK Core
+name: Download GOVUK Website
 
 on:
   workflow_dispatch:
