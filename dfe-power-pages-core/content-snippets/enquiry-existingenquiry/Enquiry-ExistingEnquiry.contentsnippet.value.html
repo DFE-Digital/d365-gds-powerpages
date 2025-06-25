@@ -1,0 +1,17 @@
+{% assign customerJourneyLandingPage = entities['dfe_customerjourneyconfig']['5a47de5f-20ab-ef11-b8e9-000d3adb571a'] %}
+ {% assign customerJourneyNext = entities['dfe_customerjourneyconfig'][customerJourneyLandingPage.dfe_next.id] %}
+ {% assign nextURL =  snippets["Enquiry/WebsiteUrl"] | append: "/" | append: customerJourneyLandingPage.dfe_webpagepartialurl | append: "/" | append: customerJourneyNext.dfe_webpagepartialurl | append: "?custJourneyId=" | append: customerJourneyLandingPage.dfe_next.id | append: "&prevCustJourneyId=" | append: customerJourneyLandingPage.dfe_customerjourneyconfigid | | append: "&ackid=" | append: {{contactid}}  %}
+ {% assign enquiryDetails = entities['dfe_enquiry'][params.enquiryId] %}
+ {% assign enquiryName = enquiryDetails.dfe_name | split: "-" %}
+<div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+  <div class="govuk-notification-banner__header">
+    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+      Important
+    </h2>
+  </div>
+  <div class="govuk-notification-banner__content">
+    <p class="govuk-notification-banner__heading">
+      <p class="govuk-body govuk-!-font-size-19">Enquiry with <strong>{{ enquiryName[1] | prepend: "ENQ-" }}</strong> already created. Click <a href="{{nextURL}}" class="govuk-link">here</a> if you wish to raise a new enquiry </p> 
+    </p>
+  </div>
+</div>

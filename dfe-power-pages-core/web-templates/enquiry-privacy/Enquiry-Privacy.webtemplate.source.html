@@ -1,0 +1,72 @@
+{% extends 'DfE/Layouts/2ColumnWideLeft' %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block title %}{% endblock %}
+
+{% block main %}
+    <!-- Privacy page ID  -->
+    {% assign pageId = "29652C44-2DE9-EF11-9341-7C1E52361641" %}
+    <!-- Get portal page config record -->
+    {% include 'Enquiry/GetPortalPageConfig' pageType: "222750001" id:pageId  %}
+    <!-- Title -->
+    {% include 'Enquiry/PortalPageTitle' portalPageconfig : portalPageconfig_result %}
+    <!-- Title ends -->
+
+    {% include 'Enquiry/GetPrivacyAccebilityConfig' portalPage: pageId %}                
+
+    {% if privacyAccessbilityQuery_Result.size > 0 %}
+        {% for privacyConfigData in  privacyAccessbilityQuery_Result %}
+            <!--default-->
+            {% if privacyConfigData.dfe_subheading != ""  %}
+                <h2 class='govuk-heading-m'>{{ privacyConfigData.dfe_subheading }}</h2>
+            {% endif %}
+        
+            {% case privacyConfigData.dfe_gdstype.value %}
+                {% when "222750000" %} <!-- inet text-->
+                    {% if privacyConfigData.dfe_text != ""  %}
+                        <div class="govuk-inset-text">                
+                            {{ privacyConfigData.dfe_text }}
+                        </div>
+                    {% endif %}
+                {% when "222750002" %} <!-- warning text-->
+                    {% if privacyConfigData.dfe_text != ""  %}
+                        <div class="govuk-warning-text">
+                            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                            <strong class="govuk-warning-text__text">
+                            <span class="govuk-visually-hidden">Warning</span>                            
+                                {{ privacyConfigData.dfe_text }}                            
+                            </strong>
+                        </div>
+                    {% endif %}
+                {% when "222750003" %} <!--  text-->                
+                    {% if privacyConfigData.dfe_text %}        
+                        <p class="govuk-body">{{ privacyConfigData.dfe_text }}</p>
+                    {% endif %} 
+
+                {% when "222750005" %} <!-- lists-->
+                <!-- getGDSTable Data -->
+                {% include 'Enquiry/GetGDSTypeData' pageType:"privacyAccessibility" pageConfigId: privacyConfigData.dfe_enquiryprivacyconfigid %}                
+                    {% if privacyConfigData.dfe_text %}        
+                        <p class="govuk-body">{{ privacyConfigData.dfe_text }}</p>
+                    {% endif %}
+                    {% if gdsTableQuery_Result.size >0 %}
+                        {% if privacyConfigData.dfe_gdslisttype.value == "222750000" %}
+                            <!-- bullted lis-->
+                            {% assign listTag = '<ul class="govuk-list govuk-list--bullet">' %}
+                            {% assign listendTag = '</ul>' %}                        
+                            
+                        {% else %}
+                            <!-- numbered lis-->
+                            {% assign listTag = '<ol class="govuk-list govuk-list--number">' %}
+                            {% assign listendTag = '</ol>' %}
+                        {% endif %}
+                        {{listTag}}
+                            {% for gdsTableData in gdsTableQuery_Result %}    
+                            <li>{{ gdsTableData.dfe_listitem }}</li>                    
+                            {% endfor %}
+                        {{listendTag}}
+                    {% endif %}
+            {% endcase %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
