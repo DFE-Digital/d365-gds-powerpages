@@ -74,11 +74,13 @@ jobs:
       shell: pwsh
       run: |
         $folder = "${{ secrets.GOVUK_WEBSITE_FOLDER }}"
-        $url = "{{ }}
+        $url = "${{ secrets.POWER_PLATFORM_URL }}"
         
+        # Load YAML module
         Import-Module powershell-yaml
-
-        $yamlPath = "./$folder/.portalconfig/dfe-central-patterns-components.crm4.dynamics.com-manifest.yml"
+        
+        # Path to the sitesetting.yml file
+        $yamlPath = "./$folder/.portalconfig/$url-manifest.yml"
 
         $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
 
@@ -109,11 +111,13 @@ jobs:
     - name: Remove Analytics/* Items from SiteSetting YAML
       shell: pwsh
       run: |
+        $folder = "${{ secrets.GOVUK_WEBSITE_FOLDER }}"
+        
         # Load YAML module
         Import-Module powershell-yaml
 
         # Path to the sitesetting.yml file
-        $siteSettingYamlPath = "./govuk-central-portal/sitesetting.yml"
+        $siteSettingYamlPath = "./$folder/sitesetting.yml"
 
         # Load the site setting YAML content
         $siteSettingYamlContent = Get-Content -Path $siteSettingYamlPath -Raw | ConvertFrom-Yaml
@@ -145,7 +149,7 @@ jobs:
       run: |
         # Stage and commit all changes
         git add .
-        git commit -m "Cleanup GOVUK portal files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        git commit -m "Cleanup GOVUK Power Pages files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
 
         # Push changes back to the cleanup branch
         git push origin HEAD:refs/heads/main --force
