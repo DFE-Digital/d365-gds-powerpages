@@ -1,0 +1,302 @@
+{% extends 'DfE/Layouts/2ColumnWideLeft' %}
+
+{% block breadcrumbs %}
+{% assign customerJourneyCategory = entities['dfe_customerjourneyconfig'][params.custJourneyId] %}
+  {% include 'Enquiry/Back' prevCustJourneyId:params.prevCustJourneyId,enquiryId:params.enquiryId,categoryId:params.categoryId,subCategoryId:params.subcategoryId,subCategoryLevel1Id:params.subcategorylevel1Id,custJourneyId:params.custJourneyId,ackId:params.ackid %}
+  {% if params.enquiryId %}
+    {% assign enquiryId = params.enquiryId %} 
+    {% include 'Enquiry/CheckIfEnquiryContactNotNull' enqId:params.enquiryId %}
+    {% if checkIfEnquiryContactNotNull_result.size == 0 %}
+     <a href="{{ EnquryBackUrl }}" class="govuk-back-link">Back</a>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+{% block title %}
+<!--<h1 class='govuk-heading-l'>{{ page.title }}</h1>-->
+{% endblock %}
+{% block main %}
+  <!--{% editable snippets 'Enquiry/CategoryContent' %}-->
+  {% assign enquiryDetails = entities['dfe_enquiry'][params.enquiryId] %}
+  {% if params.custJourneyId and params.enquiryId %}
+    <!-- to get next web page for subcategory -->
+    {% assign customerJourneyCategory = entities['dfe_customerjourneyconfig'][params.custJourneyId] %}
+    {% if customerJourneyCategory %}
+    {% assign customerJourneyNext = entities['dfe_customerjourneyconfig'][customerJourneyCategory.dfe_next.id] %}
+      {% assign customerJourneyLandingPage = entities['dfe_customerjourneyconfig']['5a47de5f-20ab-ef11-b8e9-000d3adb571a'] %}
+      {% assign customerJourneyContactDetails = entities['dfe_customerjourneyconfig']['37c6e77a-24a0-ef11-8a6a-7c1e521fa723'] %}
+      {% assign customerJourneySubCategoryLevel3 = entities['dfe_customerjourneyconfig']['de87dbb9-d7e3-ef11-9341-000d3ad8e864'] %}
+	  {% assign reCaptcha = false %}
+      {% assign reCaptchaSiteKey = settings['Enquiry/CaptchaSiteKey'] %}
+      <!-- get portal page config record -->
+	  {% include 'Enquiry/GetPortalPageConfig' pageType: "222750000" id:params.custJourneyId %} 
+      {% if portalPageconfig_result.size > 0 %}
+         {% if portalPageconfig_result[0]['dfe_enablerecaptcha'] == true %}
+           {% assign reCaptcha = true %}
+         {% else %}
+           {% assign reCaptcha = false %}
+         {% endif %}
+      {% endif %} 
+      {% if checkIfEnquiryContactNotNull_result.size > 0 %}
+         {% include 'snippet' snippet_name: 'Enquiry/ExistingEnquiry' contactid:checkIfEnquiryContactNotNull_result[0]['dfe_enquirycontact'].id %}  
+      {% else %}  
+      {% assign nextURL = snippets["Enquiry/WebsiteUrl"]  | append: "/" | append: customerJourneyLandingPage.dfe_webpagepartialurl | append: "/"  %}
+      <!-- list subcategories of category -->
+      {% assign currentDatePlusOne = now | date_add_days: 1 | date: "yyyy-MM-dd HH:mm:ss" %}
+      {% fetchxml portalSubCategories_query %}
+      <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+        <entity name="dfe_enquirysubcategorylevel2">
+        <attribute name="dfe_enquirysubcategorylevel2id" />
+        <attribute name="dfe_name" />
+        <attribute name="dfe_order" />
+        <attribute name="dfe_subcategorylevel1" />
+        <attribute name="dfe_description" />
+        <order attribute="dfe_order" descending="false" />
+        <order attribute="dfe_name" descending="false" />
+        <filter type="and">
+            <condition attribute="dfe_subcategorylevel1" operator="eq"  value="{{params.subcategorylevel1Id}}" />
+            <condition attribute="createdon" operator="le" value="{{ currentDatePlusOne }}" />
+            <condition attribute="statecode" operator="eq" value="0" />
+        </filter>
+        </entity>
+      </fetch>
+      {% endfetchxml %}
+      {% assign portalSubcategoriesLen = portalSubCategories_query.results.entities.size %}     
+      
+      <!-- Title portalPageconfig_result array returns from GetPortalPageConfig-->
+      {% include 'Enquiry/PortalPageTitle' portalPageconfig : portalPageconfig_result %}
+      <!-- title ends --> 
+          {% if portalSubcategoriesLen > 0 %}
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset" aria-describedby="subcategory-hint">
+              <p id="dfe_subcategory-error" class="govuk-error-message govuk-visually-hidden">
+                  <span class="govuk-visually-hidden">Error:</span>
+              </p><br>
+
+              <div class="govuk-radios" data-module="govuk-radios" id="dfe_subcategories">
+                  <!-- create a radio option for each retrieved record -->
+                  {% for subcategory in  portalSubCategories_query.results.entities %}
+                    <div class="govuk-radios__item">                 
+                      
+                        <input class="govuk-radios__input" id="dfe_subcategorylevel2_{{ subcategory.dfe_enquirysubcategorylevel2id }}" name="dfe_subcategorylevel2" type="radio" value="{{ subcategory.dfe_enquirysubcategorylevel2id }}" {% if params.subcategorylevel2id %} {% if subcategory.dfe_enquirysubcategorylevel2id == params.subcategorylevel2id %}checked {% endif %}{% endif %}>
+                   
+                        <label class="govuk-label govuk-radios__label" for="dfe_subcategorylevel2_{{ subcategory.dfe_enquirysubcategorylevel2id }}">
+                            <strong> {{ subcategory.dfe_name }} </strong>
+                        </label>
+                        <div id="dfe_subcategorylevel2_{{ subcategory.dfe_enquirysubcategorylevel2id }}-item-hint" class="govuk-hint govuk-radios__hint">
+                          {{ subcategory.dfe_description }}
+                        </div>                  
+                    </div>
+                  {% endfor %}
+              </div>
+          </fieldset>
+        </div> 
+		<div id="captha_elt"></div><br><div id="CaptchMessageId"></div>
+        <button class="govuk-button" id="submit-btn" data-module="govuk-button" data-prevent-double-click="true">Continue   
+          <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+          </svg>
+        </button>
+        <!-- loader spinner -->
+        <div id="loader" class="loader govuk-visually-hidden"></div>
+      {% endif %}
+      {% if reCaptcha == true %}
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&amp;render=explicit" async="" defer=""></script>
+      {% endif %}
+      <script type="text/javascript">
+		var cpatchaResponse = false;
+        var onloadCallback = function()
+        {
+          grecaptcha.render('captha_elt',{
+          'sitekey':'{{reCaptchaSiteKey}}',
+          'callback': onCaptchaSubmit  
+          });
+        };
+        var onCaptchaSubmit = function(response)
+        {
+          if(response){
+            console.log(response)
+            cpatchaResponse = true
+          }
+        };
+        $(() => {
+          const entityName = "dfe_enquiries";
+          
+          let inputsToValidate = [{ 
+            identifier: "dfe_subcategorylevel2", 
+            type: "radio", 
+            friendlyName: "a Sub Category Level 2", 
+            resolve: false, 
+            required: true,
+            targetType: "lookup",
+            targetEntity: "dfe_enquirysubcategorylevel2s"           
+          }]
+			$('#CaptchMessageId').hide();
+            $('#HTMLCaptchMessageId').hide();
+            $('#submit-btn').on("click", () => {
+			if({{reCaptcha}} === false)
+		    {
+			   cpatchaResponse = true;
+		    }
+        $('#HTMLCaptchMessageId').remove();			
+        DfEPortal.DisableButton("submit-btn");
+        DfEPortal.ShowLoadingSpinner("loader");
+        DfEPortal.ValidateData(inputsToValidate)
+        .then(() => {
+          DfEPortal.WebApi.ConstructData(inputsToValidate)
+          .then(dataObj => { 
+            debugger;
+				if(cpatchaResponse == true)
+                { 
+					$('#captha_elt').hide();			    
+					var subCategoryLevel2radioValue = $("input[name='dfe_subcategorylevel2']:checked").val();
+					DfEPortal.WebApi.Init();                
+					DfEPortal.WebApi.Update("{{ params.enquiryId }}", entityName, dataObj)
+					.then(() => {
+                    const portalConfig = 
+                    {
+                        baseUrl: "{{nextURL}}",
+                        nextJourneyUrl : "{{customerJourneyNext.dfe_webpagepartialurl}}",
+                        contactDetailUrl: "{{customerJourneyContactDetails.dfe_webpagepartialurl}}",
+                        enquiryId: "{{params.enquiryId}}",
+                        prevCustJourneyId:"{{params.custJourneyId}}",
+                        landingPagePartialUrl: "{{customerJourneyLandingPage.dfe_webpagepartialurl}}",
+                        nextCustomerJourneyId: "{{customerJourneyCategory.dfe_next.id}}",
+                        categoryValue: "{{params.categoryId}}",
+                        subCategoryCustJourneyId: "{{customerJourneySubCategoryLevel3.dfe_customerjourneyconfigid}}",
+                        subCategoryValue: "{{params.subcategoryId}}",
+                        subCategorylevel1Value: "{{params.subcategorylevel1Id}}",
+                        subCategorylevel2Value: subCategoryLevel2radioValue,
+                        subCategorylevel3Value: "",
+                        subCategorylevel4Value: "",
+                        ackId:"{{params.ackid}}"
+                    };
+					 
+                  CheckNumberOfSubCategories(portalConfig);
+                 
+                })
+                .catch(error => {
+                  console.log(error);
+                  DfEPortal.Errors.ShowWebApiError();
+                  DfEPortal.EnableButton("submit-btn");
+                  DfEPortal.HideLoadingSpinner("loader");
+                  $('#captha_elt').show();
+                })
+				if({{reCaptcha}} === true)
+				{
+				  grecaptcha.reset();
+				  cpatchaResponse = false;
+				}
+			  }
+			  else
+			  {
+				   $('#CaptchMessageId').show();
+				   $('#HTMLCaptchMessageId').show();
+				   let captchaHTML = '<div class="govuk-warning-text" id="HTMLCaptchMessageId"><span class="govuk-warning-text__icon" aria-hidden="true">!</span><strong class="govuk-warning-text__text"><span class="govuk-visually-hidden">Warning</span>Please Enter the Captcha.</strong></div>'
+				   $('#CaptchMessageId').append(captchaHTML);
+				   DfEPortal.EnableButton("submit-btn");
+				   DfEPortal.HideLoadingSpinner("loader");
+           $('#captha_elt').show();                 
+        }
+              
+        })
+        .catch(error => {
+          console.log(error);
+          DfEPortal.Errors.ShowWebApiError();
+          DfEPortal.EnableButton("submit-btn");
+          DfEPortal.HideLoadingSpinner("loader");
+          $('#captha_elt').show();
+        })
+      })
+      .catch(() => {
+        DfEPortal.EnableButton("submit-btn");
+        DfEPortal.HideLoadingSpinner("loader");
+        $('#captha_elt').show();
+      })
+    });      
+    
+  })
+     function CheckNumberOfSubCategories(portalConfig)
+        {   
+            var catIdParamValue = "";
+            var part1contactDetailUrl = portalConfig.baseUrl + portalConfig.contactDetailUrl + '/?categoryId=' + portalConfig.categoryValue + '&subcategoryId=' + portalConfig.subCategoryValue + '&subcategorylevel1Id=' + portalConfig.subCategorylevel1Value + '&subcategorylevel2Id=' + portalConfig.subCategorylevel2Value + '&subcategorylevel3Id=' + portalConfig.subCategorylevel3Value + '&subcategorylevel4Id=' + portalConfig.subCategorylevel4Value + '&enquiryId=' + portalConfig.enquiryId + '&prevCustJourneyId=' + portalConfig.prevCustJourneyId;
+
+            if(portalConfig.subCategoryCustJourneyId === "a7477ce6-24a0-ef11-8a6a-7c1e521fa723")  
+            {
+                catIdParamValue = portalConfig.categoryValue
+            }   
+            else if(portalConfig.subCategoryCustJourneyId === "662badf3-d6e3-ef11-9341-000d3ad8e864")  
+            {
+                catIdParamValue = portalConfig.subCategoryValue
+            }  
+            else if(portalConfig.subCategoryCustJourneyId === "c50109a1-d7e3-ef11-9341-000d3ad8e864")  
+            {
+                catIdParamValue = portalConfig.subCategorylevel1Value
+            }
+            else if(portalConfig.subCategoryCustJourneyId === "de87dbb9-d7e3-ef11-9341-000d3ad8e864")  
+            {
+                catIdParamValue = portalConfig.subCategorylevel2Value
+            }
+            else if(portalConfig.subCategoryCustJourneyId === "cc449ad2-d7e3-ef11-9341-000d3ad8e864")  
+            {
+                catIdParamValue = portalConfig.subCategorylevel3Value
+            }
+            else
+            {
+              if(portalConfig.ackId)
+               {                
+                 part1contactDetailUrl = part1contactDetailUrl + '&ackid=' + portalConfig.ackId
+               }
+               window.location.href= part1contactDetailUrl + '&custJourneyId=37c6e77a-24a0-ef11-8a6a-7c1e521fa723';
+               return;
+            }             						
+            var _url = "/"+ portalConfig.landingPagePartialUrl + "/getsubcat/?catId=" + catIdParamValue + "&subCatId=" + portalConfig.subCategoryCustJourneyId
+            $.ajax({
+                method: "GET",
+                contentType: "application/json",
+                url:_url
+            })
+            .done(function(data) 
+            {
+               debugger;
+                var part1nextJourneyUrl = portalConfig.baseUrl + portalConfig.nextJourneyUrl + '/?categoryId=' + portalConfig.categoryValue + '&subcategoryId=' + portalConfig.subCategoryValue + '&subcategorylevel1Id=' + portalConfig.subCategorylevel1Value + '&subcategorylevel2Id=' + portalConfig.subCategorylevel2Value + '&subcategorylevel3Id=' + portalConfig.subCategorylevel3Value + '&subcategorylevel4Id=' + portalConfig.subCategorylevel4Value + '&enquiryId=' + portalConfig.enquiryId + '&prevCustJourneyId=' + portalConfig.prevCustJourneyId;
+               if(portalConfig.ackId)
+               {
+                 part1nextJourneyUrl = part1nextJourneyUrl + '&ackid=' + portalConfig.ackId;
+                 part1contactDetailUrl = part1contactDetailUrl + '&ackid=' + portalConfig.ackId
+               }                              
+              if(data.totalcount > 0)
+              {
+                  window.location.href=part1nextJourneyUrl + '&custJourneyId=' + portalConfig.nextCustomerJourneyId;
+              }
+              else 
+              {
+                window.location.href= part1contactDetailUrl + '&custJourneyId=37c6e77a-24a0-ef11-8a6a-7c1e521fa723';
+              }
+        })
+        .fail(function () {
+            
+            });
+        }       
+      </script>
+      {% endif %}
+    {% else %}
+     <script>
+       window.location.href="{{ sitemarkers['DfE/Error/RecordNotFound'].url }}";
+     </script>
+   {% endif %} 
+  {% else %}
+    <script>
+      window.location.href="{{ sitemarkers['DfE/Error/RecordNotFound'].url }}";
+    </script>
+  {% endif %}
+
+    {% if user %}
+      <!-- Signed in user content goes here -->    
+    {% else %}
+      <!-- Signed out user content goes here -->
+    {% endif %}
+{% endblock %}
+
+{% block rightColumn %}
+  <!-- Side banner content goes in here. If side banner content is not required this block can be removed from the template -->
+{% endblock %}

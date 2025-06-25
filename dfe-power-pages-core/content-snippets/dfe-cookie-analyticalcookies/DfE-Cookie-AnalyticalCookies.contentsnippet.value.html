@@ -1,0 +1,57 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Change your cookie settings</h2>
+        <div class="govuk-form-group">{{cookieconfig.dfe_text}}
+            
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                    Do you want to accept analytics cookies?
+                </legend>
+                <div class="govuk-radios" data-module="govuk-radios">
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="cookies-analytics" name="cookie-analytics" type="radio"
+                            value="yes">
+                        <label class="govuk-label govuk-radios__label" for="cookies-analytics">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="cookies-analytics-2" name="cookie-analytics" type="radio"
+                            value="no">
+                        <label class="govuk-label govuk-radios__label" for="cookies-analytics-2">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </fieldset>           
+        </div>
+        <button class="govuk-button" data-module="govuk-button" id="save-cookie-settings" >
+            Save cookie settings
+        </button>
+    </div>
+</div>
+<script>
+//USES ESSENTIAL AND ANALYTICS COOKIES	
+// On Load method
+    var cookieConsent = DfECookies.checkAnalyticalCookies();
+    let cookieAnalyticsOne = document.getElementById("cookies-analytics");
+    let cookieAnalyticsTwo = document.getElementById("cookies-analytics-2");
+
+    // Google Analytics Cookie exists - user has accepted or reject cookies
+    if (cookieConsent == 1) {
+        cookieAnalyticsOne.checked = true;
+        cookieAnalyticsTwo.checked = false;
+    }
+    // Google Analytics Cookie does not exist - user has not accepted or rejected
+    else if (cookieConsent == 2) {
+        cookieAnalyticsOne.checked = false;
+        cookieAnalyticsTwo.checked = true;
+    }
+    else {
+        cookieAnalyticsOne.checked = false;
+        cookieAnalyticsTwo.checked = false;
+    }
+
+    // On Change methods
+    DfECookies.saveCookieSettings("save-cookie-settings");
+    </script>

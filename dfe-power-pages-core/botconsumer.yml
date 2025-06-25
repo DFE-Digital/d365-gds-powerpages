@@ -1,0 +1,6 @@
+- adx_botconsumer_adx_webrole: []
+  adx_botconsumerid: e5df1307-636f-ef11-a670-7c1e522065e3
+  adx_botschemaname: adx_71b029de-2361-4b2c-b4c9-f61faf22bba6
+  adx_configjson: '{"skillConfigViewName":"DFE Central Portal bot Answers"}'
+  adx_name: botConsumer
+  versionnumber: 7099224

@@ -1,0 +1,15 @@
+- adx_managecontentsnippets: true
+  adx_managesitemarkers: true
+  adx_manageweblinksets: true
+  adx_name: Administrative permissions for Customer Portal
+  adx_previewunpublishedentities: true
+  adx_websiteaccess_webrole:
+  - 247532d4-626f-ef11-a670-7c1e522065e3
+  adx_websiteaccessid: 417532d4-626f-ef11-a670-7c1e522065e3
+- adx_managecontentsnippets: false
+  adx_managesitemarkers: false
+  adx_manageweblinksets: false
+  adx_name: Preview permission for Customer Portal
+  adx_previewunpublishedentities: true
+  adx_websiteaccess_webrole: []
+  adx_websiteaccessid: a3d3f2d8-626f-ef11-a671-0022489df671
