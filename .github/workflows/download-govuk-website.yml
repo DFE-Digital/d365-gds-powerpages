@@ -66,6 +66,7 @@ jobs:
         website-id: ${{ secrets.GOVUK_WEBSITE_ID }}
         overwrite: true
         exclude-entities: "adx_urlhistory"
+        model-version: enhanced
 
     - name: Configure Git
       run: |
