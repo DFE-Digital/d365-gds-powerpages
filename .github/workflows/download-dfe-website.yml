@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    if: ${{ github.ref != 'refs/heads/main' }}
     runs-on: windows-latest
 
     steps:
