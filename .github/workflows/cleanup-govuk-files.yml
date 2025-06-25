@@ -1,8 +1,8 @@
-name: Cleanup GOVUK Power Pages Files
+name: Cleanup GOVUK Files
 
 on:
   workflow_run:
-    workflows: ["Download GOVUK Power Pages Website"]
+    workflows: ["Download GOCUK Website"]
     types:
       - completed
 
