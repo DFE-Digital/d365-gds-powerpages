@@ -1,0 +1,18 @@
+{% fetchxml cookieConfig_query %}
+     <fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+         <entity name="dfe_enquirycookiespageconfig">
+         <attribute name="dfe_enquirycookiespageconfigid" />
+         <attribute name="dfe_name" />
+         <attribute name="dfe_text" />
+         <attribute name="dfe_subheading" />
+         <attribute name="dfe_gdstype" />
+         <attribute name="dfe_gdsliststype" />
+         <attribute name="dfe_cookiebannertype" />        
+         <filter type="and">
+            <condition attribute="dfe_gdstype" operator="eq" value="{{gdsType}}" />
+             <condition attribute="statecode" operator="eq" value="0" />
+         </filter>
+         </entity>
+     </fetch>
+{% endfetchxml %}
+{% assign cookieConfig_result = cookieConfig_query.results.entities %}
