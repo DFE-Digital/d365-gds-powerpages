@@ -5,7 +5,7 @@ on:
     types: [create-dfe-power-pages-website]
 
 permissions:
-  contents: read       # read-only access to your repo
+  contents: read
 
 jobs:
   build:
