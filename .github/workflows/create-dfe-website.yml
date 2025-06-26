@@ -43,3 +43,4 @@ jobs:
         client-secret: ${{ inputs.client-secret }}
         tenant-id: ${{ secrets.TENANT_ID }}
         upload-path: "./${{ secrets.DFE_WEBSITE_FOLDER }}"
+        model-version: enhanced
