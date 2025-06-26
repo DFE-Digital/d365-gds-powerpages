@@ -1,10 +1,6 @@
 - adx_name: Authentication/OpenIdConnect/AzureAD/RebrandDisclaimerEnabled
   adx_sitesettingid: 0ec4afd0-4ab6-ef11-b8e8-002248999f6b
   adx_value: false
-- adx_description: Before setting this value to true, you need to create a contact table permission and allow Read and Write privilege and associate it with Authenticated User web role
-  adx_name: Analytics/LastSuccessfulLoginTelemetry/Setting
-  adx_sitesettingid: 119f97c1-0f04-f011-bae3-002248a0fe4b
-  adx_value: false
 - adx_name: ThemeFeature
   adx_sitesettingid: 15d48d5d-3b0f-4b92-a200-80dc16419ec0
   adx_value: '{"status":"disable","selectedThemeId":"","siteSettingId":"15d48d5d-3b0f-4b92-a200-80dc16419ec0","version":"V2"}'
@@ -14,13 +10,13 @@
 - adx_description: Determines if users will see knowledge articles that aren�t associated with products when product filtering is turned on.
   adx_name: ProductFiltering/DisplayArticlesWithoutAssociatedProducts
   adx_sitesettingid: 1d0a38d1-626f-ef11-a670-000d3adb261f
-  adx_value: True
+  adx_value: true
 - adx_name: HTTP/X-Frame-Options
   adx_sitesettingid: 1e0a38d1-626f-ef11-a670-000d3adb261f
   adx_value: SAMEORIGIN
 - adx_name: Profile/ShowMarketingOptionsPanel
   adx_sitesettingid: 1f0a38d1-626f-ef11-a670-000d3adb261f
-  adx_value: True
+  adx_value: true
 - adx_description: 'The default number of unauthenticated login attempts from an IP address before the IP address is blocked for Authentication/LoginThrottling/IpAddressTimeoutTimeSpan if the attempts occur within Authentication/LoginThrottling/MaxAttemptsTimeLimitTimeSpan amount of time. Default: 1000'
   adx_name: Authentication/LoginThrottling/MaxInvaildAttemptsFromIPAddress
   adx_sitesettingid: 200a38d1-626f-ef11-a670-000d3adb261f
@@ -28,15 +24,13 @@
 - adx_name: Authentication/Registration/Enabled
   adx_sitesettingid: 210a38d1-626f-ef11-a670-000d3adb261f
   adx_value: true
-  importsequencenumber: 5
 - adx_name: Authentication/Registration/ExternalLoginEnabled
   adx_sitesettingid: 220a38d1-626f-ef11-a670-000d3adb261f
   adx_value: true
-  importsequencenumber: 2
 - adx_description: Site setting that determines if the language code is included in the portal URL.
   adx_name: MultiLanguage/DisplayLanguageCodeInURL
   adx_sitesettingid: 230a38d1-626f-ef11-a670-000d3adb261f
-  adx_value: False
+  adx_value: false
 - adx_description: Site setting that controls the depth of the webpage hierarchy that�s cloned in a newly-added supported language. Web link sets and content snippets are cloned in the newly-added language when webpages are cloned.
   adx_name: MultiLanguage/MaximumDepthToClone
   adx_sitesettingid: 240a38d1-626f-ef11-a670-000d3adb261f
@@ -48,10 +42,7 @@
 - adx_description: Determines if faceted search is used for this portal.
   adx_name: Search/FacetedView
   adx_sitesettingid: 260a38d1-626f-ef11-a670-000d3adb261f
-  adx_value: True
-- adx_name: Analytics/AppInsight/InstrumentationKey
-  adx_sitesettingid: 29e0025b-d380-ef11-ac20-002248a46a38
-  adx_value: 2e83c055-6117-4fd9-b4f1-24bb59fb4bac
+  adx_value: true
 - adx_name: Webapi/dfe_temporarycontactdetail/enabled
   adx_sitesettingid: 33ccc50c-bcbe-ef11-b8e9-002248a46a38
   adx_value: true
@@ -72,8 +63,7 @@
 - adx_description: Set to "True" to force the user to submit the profile information before accessing the website contents.
   adx_name: Profile/ForceSignUp
   adx_sitesettingid: 448421ce-626f-ef11-a670-7c1e522065e3
-  adx_value: False
-  importsequencenumber: 2
+  adx_value: false
 - adx_description: External search engines that will be tracked as knowledge article referrers for a portal.
   adx_name: KnowledgeManagement/Analytics/ExternalSearchEngines
   adx_sitesettingid: 458421ce-626f-ef11-a670-7c1e522065e3
@@ -89,14 +79,11 @@
 - adx_name: Authentication/Registration/EmailConfirmationEnabled
   adx_sitesettingid: 478421ce-626f-ef11-a670-7c1e522065e3
   adx_value: true
-  importsequencenumber: 2
 - adx_name: Authentication/OpenAuth/Microsoft/ClientSecret
   adx_sitesettingid: 488421ce-626f-ef11-a670-7c1e522065e3
-  importsequencenumber: 5
 - adx_name: Authentication/Registration/InvitationEnabled
   adx_sitesettingid: 498421ce-626f-ef11-a670-7c1e522065e3
   adx_value: true
-  importsequencenumber: 2
 - adx_description: 'Relationship to use to query the Accounts Product association. If you use a custom intersect ex: like an Asset entity, then you can include the relationship names from Account to Asset and Asset to Product, separate by �;� delimiter.'
   adx_name: ProductFiltering/AccountToProductRelationshipNames
   adx_sitesettingid: 4a8421ce-626f-ef11-a670-7c1e522065e3
@@ -105,7 +92,6 @@
   adx_name: Authentication/Registration/ProfileRedirectEnabled
   adx_sitesettingid: 4b8421ce-626f-ef11-a670-7c1e522065e3
   adx_value: true
-  importsequencenumber: 2
 - adx_description: Denies use of the portal to minors. By default, it is set to false.
   adx_name: Authentication/Registration/DenyMinors
   adx_sitesettingid: 4c8421ce-626f-ef11-a670-7c1e522065e3
@@ -113,11 +99,11 @@
 - adx_description: Determines if product filtering is turned on (enabled) or off (disabled).
   adx_name: ProductFiltering/Enabled
   adx_sitesettingid: 4e8421ce-626f-ef11-a670-7c1e522065e3
-  adx_value: False
+  adx_value: false
 - adx_description: Set whether the header web template is output cached.
   adx_name: Header/OutputCache/Enabled
   adx_sitesettingid: 4f8421ce-626f-ef11-a670-7c1e522065e3
-  adx_value: True
+  adx_value: true
 - adx_name: Webapi/contact/enabled
   adx_sitesettingid: 6b8d3717-7f6f-ef11-a671-0022489df671
   adx_value: true
@@ -139,7 +125,6 @@
   adx_value: false
 - adx_name: Authentication/Registration/LoginButtonAuthenticationType
   adx_sitesettingid: 7818d9d2-626f-ef11-a671-0022489df671
-  importsequencenumber: 2
 - adx_description: 'The Prefix entered here will be used to filter Notes Text, allowing you to control notes exposed on the Portal ex: *WEB*'
   adx_name: KnowledgeManagement/NotesFilter
   adx_sitesettingid: 7918d9d2-626f-ef11-a671-0022489df671
@@ -148,14 +133,13 @@
   adx_sitesettingid: 7a18d9d2-626f-ef11-a671-0022489df671
 - adx_name: DfE/Header/ShowProfileNavLink
   adx_sitesettingid: 7afb9a72-e94d-f011-877a-7c1e52faee29
-  adx_value: True
+  adx_value: true
 - adx_name: Authentication/Registration/LocalLoginEnabled
   adx_sitesettingid: 7b18d9d2-626f-ef11-a671-0022489df671
   adx_value: true
 - adx_name: Authentication/Registration/OpenRegistrationEnabled
   adx_sitesettingid: 7c18d9d2-626f-ef11-a671-0022489df671
   adx_value: true
-  importsequencenumber: 2
 - adx_description: A true or false value. If set to true, the portal will display the terms and conditions of the site. Users must agree to the terms and conditions before they are considered authenticated and can use the site.
   adx_name: Authentication/Registration/TermsAgreementEnabled
   adx_sitesettingid: 7d18d9d2-626f-ef11-a671-0022489df671
@@ -164,7 +148,6 @@
   adx_name: Authentication/Registration/AzureADLoginEnabled
   adx_sitesettingid: 7e18d9d2-626f-ef11-a671-0022489df671
   adx_value: true
-  importsequencenumber: 2
 - adx_description: 'Relationship to use to query the Contacts Product association. If you use a custom intersect ex: like an Asset entity, then you can include the relationship names from Contact to Asset and Asset to Product, separated by �;� delimiter.'
   adx_name: ProductFiltering/ContactToProductRelationshipNames
   adx_sitesettingid: 7f18d9d2-626f-ef11-a671-0022489df671
@@ -174,13 +157,13 @@
   adx_sitesettingid: 8018d9d2-626f-ef11-a671-0022489df671
 - adx_name: Search/EnableGenerativeAI
   adx_sitesettingid: 80bc2407-636f-ef11-a671-0022489df671
-  adx_value: True
+  adx_value: true
 - adx_name: WebFiles/StorageLocatio
   adx_sitesettingid: 88714259-1651-f011-877b-7c1e52faee29
   adx_value: AzureBlobStorage
 - adx_name: DfE/Header/ShowAccountNavBar
   adx_sitesettingid: 90001680-e94d-f011-877a-7c1e52faee29
-  adx_value: True
+  adx_value: true
 - adx_name: Authentication/OpenIdConnect/AzureAD/Caption
   adx_sitesettingid: 909349d4-4ab6-ef11-b8e9-002248a46a38
   adx_value: Microsoft Entra ID
@@ -200,25 +183,20 @@
 - adx_description: A true or false value. If set to true, the local account will be marked as deprecated. The portal user will be required to migrate to a non-deprecated account.
   adx_name: Authentication/Registration/LocalLoginDeprecated
   adx_sitesettingid: ebb1a0ce-626f-ef11-a670-002248a3bd1d
-  adx_value: False
+  adx_value: false
 - adx_name: Authentication/OpenAuth/Facebook/AppSecret
   adx_sitesettingid: ecb1a0ce-626f-ef11-a670-002248a3bd1d
-  importsequencenumber: 5
 - adx_name: Authentication/OpenAuth/Twitter/ConsumerKey
   adx_sitesettingid: edb1a0ce-626f-ef11-a670-002248a3bd1d
-  importsequencenumber: 5
 - adx_name: Authentication/OpenAuth/Facebook/AppId
   adx_sitesettingid: eeb1a0ce-626f-ef11-a670-002248a3bd1d
-  importsequencenumber: 5
 - adx_name: Enquiry/CaptchaSiteKey
   adx_sitesettingid: ef34bc89-7dd9-ef11-8eea-000d3ab4a12f
   adx_value: 6LdMo74qAAAAAGq_P8MpcEVOPFxbOC32iQq3-HBU
 - adx_name: Authentication/OpenAuth/Microsoft/ClientId
   adx_sitesettingid: efb1a0ce-626f-ef11-a670-002248a3bd1d
-  importsequencenumber: 5
 - adx_name: Authentication/OpenAuth/Twitter/ConsumerSecret
   adx_sitesettingid: f0b1a0ce-626f-ef11-a670-002248a3bd1d
-  importsequencenumber: 5
 - adx_description: 'The amount of time the IP address will have to wait if Authentication/LoginThrottling/MaxInvaildAttemptsFromIPAddress occur within Authentication/LoginThrottling/MaxAttemptsTimeLimitTimeSpan amount of time. Default: 00:10:00 (10 mins)'
   adx_name: Authentication/LoginThrottling/IpAddressTimeoutTimeSpan
   adx_sitesettingid: f1b1a0ce-626f-ef11-a670-002248a3bd1d
@@ -229,11 +207,11 @@
 - adx_description: Controls whether Content Access Level is enabled or disabled.
   adx_name: KnowledgeManagement/ContentAccessLevel/Enabled
   adx_sitesettingid: f3b1a0ce-626f-ef11-a670-002248a3bd1d
-  adx_value: False
+  adx_value: false
 - adx_description: Set to "True" to capture view count data for Knowledge Management.
   adx_name: KnowledgeManagement/Article/CaptureViewCount
   adx_sitesettingid: f4b1a0ce-626f-ef11-a670-002248a3bd1d
-  adx_value: True
+  adx_value: true
 - adx_description: Enabling this setting will show all customer activity on the portal timeline.
   adx_name: CustomerSupport/DisplayAllUserActivitiesOnTimeline
   adx_sitesettingid: f5b1a0ce-626f-ef11-a670-002248a3bd1d
@@ -241,7 +219,7 @@
 - adx_description: Set whether the footer web template is output cached.
   adx_name: Footer/OutputCache/Enabled
   adx_sitesettingid: f6b1a0ce-626f-ef11-a670-002248a3bd1d
-  adx_value: True
+  adx_value: true
 - adx_name: Search/IndexNotesAttachments
   adx_sitesettingid: f7b1a0ce-626f-ef11-a670-002248a3bd1d
   adx_value: false
