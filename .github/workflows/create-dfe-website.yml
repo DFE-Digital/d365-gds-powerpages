@@ -1,17 +1,11 @@
 name: Create DfE Power Pages Website
 
 on:
-  workflow_dispatch:
-    inputs:
-      client-id:
-        description: 'Client ID'
-        required: true
-      client-secret:
-        description: 'Client Secret'
-        required: true
-      environment-url:
-        description: 'Target Environment URL'
-        required: true
+  repository_dispatch:
+    types: [create-dfe-website]
+
+permissions:
+  contents: read
 
 jobs:
   build:
