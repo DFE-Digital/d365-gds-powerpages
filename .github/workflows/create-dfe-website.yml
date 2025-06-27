@@ -1,4 +1,4 @@
-name: Create DfE Power Pages Website
+name: Create DfE Website
 
 on:
   repository_dispatch:
