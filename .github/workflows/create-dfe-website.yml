@@ -30,17 +30,17 @@ jobs:
     - name: Authentication Check
       uses: microsoft/powerplatform-actions/who-am-i@v1
       with:
-        environment-url: ${{ inputs.environment-url }}
-        app-id: ${{ inputs.client-id }}
-        client-secret: ${{ inputs.client-secret }}
-        tenant-id: ${{ secrets.TENANT_ID }}
+        environment-url:   ${{ github.event.client_payload.environment_url }}
+        app-id:            ${{ github.event.client_payload.client_id }}
+        client-secret:     ${{ github.event.client_payload.client_secret }}
+        tenant-id:         ${{ secrets.TENANT_ID }}
 
     - name: Upload DfE Site to Target Environment
       uses: microsoft/powerplatform-actions/upload-paportal@v1
       with:
-        environment-url: ${{ inputs.environment-url }}
-        app-id: ${{ inputs.client-id }}
-        client-secret: ${{ inputs.client-secret }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        upload-path: "./${{ secrets.DFE_WEBSITE_FOLDER }}"
-        model-version: enhanced
+        environment-url:   ${{ github.event.client_payload.environment_url }}
+        app-id:            ${{ github.event.client_payload.client_id }}
+        client-secret:     ${{ github.event.client_payload.client_secret }}
+        tenant-id:         ${{ secrets.TENANT_ID }}
+        upload-path:       "./${{ secrets.DFE_WEBSITE_FOLDER }}"
+        model-version:     enhanced
