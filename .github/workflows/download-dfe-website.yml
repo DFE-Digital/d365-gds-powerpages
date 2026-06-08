@@ -1,0 +1,86 @@
+name: Download DfE Website
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    if: ${{ github.ref != 'refs/heads/main' }}
+    runs-on: windows-latest
+
+    steps:
+    - name: Check Permissions
+      shell: pwsh
+      run: |
+        $authorizedUsers = "${{ secrets.AUTHORIZED_USERS }}"
+        $currentUser = "${{ github.actor }}"
+        if ($authorizedUsers -notcontains $currentUser) {
+          Write-Output "Error: You do not have permission to run this workflow."
+          exit 1
+        }
+    
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+      
+    - name: Install Power Platform Tools
+      uses: microsoft/powerplatform-actions/actions-install@v1
+
+    - name: Authentication Check
+      uses: microsoft/powerplatform-actions/who-am-i@v1
+      with:
+        environment-url: "https://${{ secrets.POWER_PLATFORM_URL }}"
+        app-id: ${{ secrets.CLIENT_ID }}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+
+    - name: Pre-Download Cleanup
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        $url = "${{ secrets.POWER_PLATFORM_URL }}"
+        
+        # Define the files to remove
+        $filesToRemove = @(
+          "./$folder/.portalconfig/$url-manifest.yml",
+          "./$folder/.portalconfig/manifest.yml"
+        )
+        
+        # Loop through each file and remove it if it exists
+        foreach ($file in $filesToRemove) {
+          if (Test-Path $file) {
+            Remove-Item -Path $file -Force
+            Write-Output "Removed $file"
+          } else {
+            Write-Output "$file does not exist, skipping"
+          }
+        }
+        
+    - name: Download DfE Portal
+      uses: microsoft/powerplatform-actions/download-paportal@v1
+      with:
+        environment-url: "https://${{ secrets.POWER_PLATFORM_URL }}"
+        app-id: ${{ secrets.CLIENT_ID }}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{ secrets.TENANT_ID }}
+        download-path: .
+        website-id: ${{ secrets.DFE_WEBSITE_ID }}
+        overwrite: true
+        exclude-entities: "adx_urlhistory"
+
+    - name: Configure Git
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+    - name: Commit and Push to Feature
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Stage and commit all changes
+        git add .
+        git commit -m "Added new DfE Power Pages Core download ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+        
+        # Push changes to the branch from which the workflow was triggered
+        git push origin HEAD

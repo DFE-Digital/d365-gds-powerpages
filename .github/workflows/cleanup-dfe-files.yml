@@ -1,0 +1,156 @@
+name: Cleanup DfE Files
+
+on:
+  workflow_run:
+    workflows: ["Download DfE Website"]
+    types:
+      - completed
+
+jobs:
+  build:
+    if: ${{ github.event.workflow_run.head_branch != 'main' }}
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout source branch from previous workflow
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: ${{ github.event.workflow_run.head_branch }}
+
+    - name: Remove central-* Files and Folders
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Get-ChildItem -Path "./$folder/" -Filter "central-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Remove analytics-* Files and Folders
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Get-ChildItem -Path "./$folder/" -Filter "analytics-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Remove enquiry-* Files and Folders
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Get-ChildItem -Path "./$folder/" -Filter "enquiry-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Remove Tracking Code Content Snippet
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Get-ChildItem -Path "./$folder/content-snippets/" -Filter "tracking-code*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Install PowerShell YAML Module
+      shell: pwsh
+      run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
+
+    - name: Remove Central/* and Analytics/* and Enquiry/* Records from Manifest
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        $url = "${{ secrets.POWER_PLATFORM_URL }}"
+        
+        # Load YAML module
+        Import-Module powershell-yaml
+
+        # Path to YAML file
+        $yamlPath = "./$folder/.portalconfig/$url-manifest.yml"
+
+        # Load YAML content
+        $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
+
+        # Debug: Output the original structure of the YAML
+        Write-Output "Original YAML Content:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
+
+        # Create a copy of the keys to safely iterate
+        $keys = @($yamlContent.Keys)
+
+        # Iterate over the copied keys and filter records
+        foreach ($section in $keys) {
+          # Only process sections that are lists
+          if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
+            $yamlContent[$section] = $yamlContent[$section] | Where-Object {
+              $_.DisplayName -notlike 'Central/*' -and $_.DisplayName -notlike 'Analytics/*' -and $_.DisplayName -notlike 'Enquiry/*'
+            }
+          }
+        }
+
+        # Debug: Output the modified structure of the YAML
+        Write-Output "Modified YAML Content:"
+        $yamlContent | ConvertTo-Yaml | Write-Output
+
+        # Save the updated YAML back to the file
+        $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
+
+    - name: Remove Analytics/* Items from SiteSetting YAML
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        
+        # Load YAML module
+        Import-Module powershell-yaml
+
+        # Path to the sitesetting.yml file
+        $siteSettingYamlPath = "./$folder/sitesetting.yml"
+
+        # Load the site setting YAML content
+        $siteSettingYamlContent = Get-Content -Path $siteSettingYamlPath -Raw | ConvertFrom-Yaml
+
+        # Debug: Output the original structure of the site setting YAML
+        Write-Output "Original Site Setting YAML Content:"
+        $siteSettingYamlContent | ConvertTo-Yaml | Write-Output
+
+        # Filter the site setting YAML to remove Analytics/* items
+        $siteSettingYamlContent = $siteSettingYamlContent | Where-Object {
+          $_.adx_name -notlike 'Analytics/*'
+        }
+
+        # Debug: Output the modified site setting YAML content
+        Write-Output "Modified Site Setting YAML Content:"
+        $siteSettingYamlContent | ConvertTo-Yaml | Write-Output
+
+        # Save the updated site setting YAML back to the file
+        $siteSettingYamlContent | ConvertTo-Yaml | Set-Content -Path $siteSettingYamlPath
+
+    - name: Configure Git
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+    - name: Commit and Push Portal Files
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Stage and commit all changes
+        git add .
+        git commit -m "Cleanup DfE Power Pages files ${GITHUB_RUN_NUMBER}" || echo "No changes to commit"
+
+        # Push changes back to the cleanup branch
+        git push origin HEAD:refs/heads/main --force

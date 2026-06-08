@@ -1,0 +1,13 @@
+adx_append: true
+adx_appendto: true
+adx_create: true
+adx_delete: false
+adx_entitylogicalname: annotation
+adx_entityname: Central/FileUploadTest Notes
+adx_entitypermission_webrole:
+- 4c8a060e-636f-ef11-a670-7c1e522065e3
+- ff05990d-636f-ef11-a671-0022489df671
+adx_entitypermissionid: cac6f4e4-03b3-ef11-b8e8-002248999f6b
+adx_read: true
+adx_scope: 756150000
+adx_write: true

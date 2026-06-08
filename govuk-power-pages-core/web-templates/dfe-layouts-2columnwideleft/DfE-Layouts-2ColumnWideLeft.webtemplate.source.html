@@ -1,0 +1,32 @@
+<div class="govuk-width-container">
+  {% include 'DfE/Content/PhaseBanner/Beta' %}
+  {% block breadcrumbs %}
+    {% include 'DfE/Content/Breadcrumbs' %}
+  {% endblock %}
+  <main class="govuk-main-wrapper" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div id="error-summary-container"></div>
+        {% block title %}
+          {% include 'DfE/Content/PageHeading' %}
+        {% endblock %}
+        {% block main %}
+          {% include 'Page Copy' %}
+          {% if page.mspp_entitylist %}
+            {% include 'entity_list' key:page.mspp_entitylist.id %}
+          {% endif %}    
+          {% if page.mspp_entityform %}
+            {% entityform id: page.mspp_entityform.id %}
+          {% endif %}    
+          {% if page.mspp_webform %}
+            {% webform id: page.mspp_webform.id %}
+          {% endif %}
+        {% endblock %}
+      </div>
+      <div class="govuk-grid-column-one-third">
+        {% block rightColumn %}
+        {% endblock %}
+      </div>
+    </div>
+  </main>
+</div>

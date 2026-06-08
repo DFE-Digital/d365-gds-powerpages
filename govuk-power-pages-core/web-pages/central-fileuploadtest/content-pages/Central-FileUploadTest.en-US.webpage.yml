@@ -1,0 +1,16 @@
+adx_enablerating: false
+adx_enabletracking: false
+adx_excludefromsearch: false
+adx_feedbackpolicy: 756150000
+adx_hiddenfromsitemap: false
+adx_isroot: false
+adx_name: Central/FileUploadTest
+adx_pagetemplateid: be6fd0c4-03b3-ef11-b8e8-002248999f6b
+adx_parentpageid: e3dcb60f-636f-ef11-a670-7c1e5235396f
+adx_partialurl: upload
+adx_publishingstateid: 25885f0b-636f-ef11-a670-002248a430ac
+adx_rootwebpageid: b6b5787c-02b3-ef11-b8e8-002248999f6b
+adx_sharedpageconfiguration: true
+adx_title: Test File Upload
+adx_webpageid: beb5787c-02b3-ef11-b8e8-002248999f6b
+adx_webpagelanguageid: fadcb60f-636f-ef11-a670-7c1e5235396f
