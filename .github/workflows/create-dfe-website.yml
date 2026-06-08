@@ -29,6 +29,30 @@ jobs:
         client-secret:     ${{ github.event.client_payload.client_secret }}
         tenant-id:         ${{ secrets.TENANT_ID }}
 
+    - name: Inject DfE WebFiles connection string
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        $siteSettingYamlPath = "./$folder/sitesetting.yml"
+        if (-Not (Test-Path $siteSettingYamlPath)) {
+          Write-Error "File not found: $siteSettingYamlPath"
+          exit 1
+        }
+        $secretValue = "${{ secrets.DFE_WEBFILES_CONNSTR }}"
+        $content = Get-Content $siteSettingYamlPath
+        for ($i = 0; $i -lt $content.Length; $i++) {
+          if ($content[$i] -match '^[ \t]*- adx_name: WebFiles/CloudStorageAccount\s*$') {
+            for ($j = $i + 1; $j -lt $content.Length; $j++) {
+              if ($content[$j] -match '^[ \t]*adx_value: ') {
+                $content[$j] = "  adx_value: $secretValue"
+                break
+              }
+              if ($content[$j] -match '^[^ \t]') { break }
+            }
+          }
+        }
+        Set-Content -Path $siteSettingYamlPath -Value $content
+
     - name: Upload DfE Site to Target Environment
       uses: microsoft/powerplatform-actions/upload-paportal@v1
       with:

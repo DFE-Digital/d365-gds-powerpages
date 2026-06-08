@@ -69,6 +69,103 @@ jobs:
         overwrite: true
         exclude-entities: "adx_urlhistory"
 
+    - name: Remove central-* Files and Folders
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Get-ChildItem -Path "./$folder/" -Filter "central-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Remove analytics-* Files and Folders
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Get-ChildItem -Path "./$folder/" -Filter "analytics-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Remove enquiry-* Files and Folders
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Get-ChildItem -Path "./$folder/" -Filter "enquiry-*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Remove Tracking Code Content Snippet
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Get-ChildItem -Path "./$folder/content-snippets/" -Filter "tracking-code*" -Recurse | ForEach-Object {
+          if ($_.PSIsContainer) {
+            Remove-Item -Recurse -Force $_.FullName
+          } else {
+            Remove-Item -Force $_.FullName
+          }
+        }
+
+    - name: Install PowerShell YAML Module
+      shell: pwsh
+      run: Install-Module -Name powershell-yaml -Force -Scope CurrentUser
+
+    - name: Remove Central/* and Analytics/* and Enquiry/* Records from Manifest
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        $url = "${{ secrets.POWER_PLATFORM_URL }}"
+
+        Import-Module powershell-yaml
+        $yamlPath = "./$folder/.portalconfig/$url-manifest.yml"
+
+        if (-Not (Test-Path $yamlPath)) {
+          Write-Error "File not found: $yamlPath"
+          exit 1
+        }
+
+        $yamlContent = Get-Content -Path $yamlPath -Raw | ConvertFrom-Yaml
+        $keys = @($yamlContent.Keys)
+
+        foreach ($section in $keys) {
+          if ($yamlContent[$section] -is [System.Collections.IEnumerable]) {
+            $yamlContent[$section] = $yamlContent[$section] | Where-Object {
+              $_.DisplayName -notlike 'Central/*' -and $_.DisplayName -notlike 'Analytics/*' -and $_.DisplayName -notlike 'Enquiry/*'
+            }
+          }
+        }
+
+        $yamlContent | ConvertTo-Yaml | Set-Content -Path $yamlPath
+
+    - name: Remove Analytics/* Items from SiteSetting YAML
+      shell: pwsh
+      run: |
+        $folder = "${{ secrets.DFE_WEBSITE_FOLDER }}"
+        Import-Module powershell-yaml
+        $siteSettingYamlPath = "./$folder/sitesetting.yml"
+
+        if (-Not (Test-Path $siteSettingYamlPath)) {
+          Write-Error "File not found: $siteSettingYamlPath"
+          exit 1
+        }
+
+        $siteSettingYamlContent = Get-Content -Path $siteSettingYamlPath -Raw | ConvertFrom-Yaml
+        $siteSettingYamlContent = $siteSettingYamlContent | Where-Object {
+          $_.adx_name -notlike 'Analytics/*' -and $_.adx_name -notlike 'Central/*' -and $_.adx_name -notlike 'Enquiry/*'
+        }
+        $siteSettingYamlContent | ConvertTo-Yaml | Set-Content -Path $siteSettingYamlPath
+
     - name: Configure Git
       run: |
         git config user.name "GitHub Actions"
